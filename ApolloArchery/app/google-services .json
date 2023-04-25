@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "145480100481",
+    "project_id": "apollo-archery-6971f",
+    "storage_bucket": "apollo-archery-6971f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145480100481:android:97d1328b3cc7b6f58bfb80",
+        "android_client_info": {
+          "package_name": "com.fullsail.apolloarchery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145480100481-f66svvk8vk4ku98u4ng3id2u9kurna7m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fullsail.apolloarchery",
+            "certificate_hash": "244a1b4a478703c91574bf20dfb68f55916da9fb"
+          }
+        },
+        {
+          "client_id": "145480100481-6phi2vpc6mjk44gq8vmadts80301524t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1jNYTomkeSTm2aFBLZVN5mYf2gCqb_mo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145480100481-6phi2vpc6mjk44gq8vmadts80301524t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
