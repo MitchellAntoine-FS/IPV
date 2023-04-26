@@ -1,66 +1,114 @@
 package com.fullsail.apolloarchery.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 
 import com.fullsail.apolloarchery.R;
+import com.fullsail.apolloarchery.object.LogInListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LoginFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Objects;
+
 public class LoginFragment extends Fragment {
+    public static final String TAG = "LoginFragment.TAG";
+    private FirebaseAuth mAuth;
+    EditText etEmail, etPassword;
+    Button logInBtn;
+    LogInListener mListener;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public LoginFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LoginFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LoginFragment newInstance(String param1, String param2) {
-        LoginFragment fragment = new LoginFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof LogInListener){
+            mListener = (LogInListener) context;
         }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_login, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Instantiate objects
+        mAuth = FirebaseAuth.getInstance();
+
+        logInBtn = view.findViewById(R.id.login_btn);
+        logInBtn.setOnClickListener(v -> {
+            // Get User email entry
+            etEmail = view.findViewById(R.id.login_email_entry);
+            String email = etEmail.getText().toString();
+
+            if (TextUtils.isEmpty(email)) {
+                etEmail.setError("Required.");
+            }else {
+                etEmail.setError(null);
+            }
+
+            // Get user password entry
+            etPassword = view.findViewById(R.id.login_password_entry);
+            String password = etPassword.getText().toString();
+
+            if (TextUtils.isEmpty(password)) {
+                etPassword.setError("Required.");
+            }else {
+                etPassword.setError(null);
+            }
+
+            if (!(email.trim().length() == 0) || !(password.trim().length() == 0)) {
+                // Sign in with email and password
+                signInWithEmailPassword(email, password);
+            }
+        });
+    }
+
+    private void signInWithEmailPassword(String email, String password) {
+        Log.i(TAG, "signInWithEmailPassword: " + email);
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity(),
+                task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success
+                        Log.d(TAG, "signInWithEmail: success");
+
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                        Toast.makeText(getContext(),"Hi Again " +  Objects.requireNonNull(user).getDisplayName(), Toast.LENGTH_SHORT).show();
+
+                        mListener.closeLogIn();
+
+                    }else {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "signInWithEmail: failure", task.getException());
+                        Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
