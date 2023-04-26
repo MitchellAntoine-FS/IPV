@@ -144,7 +144,7 @@
         tools:ignore="TextContrastCheck" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/create_account_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="93dp"
@@ -168,6 +168,6 @@
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/create_account_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

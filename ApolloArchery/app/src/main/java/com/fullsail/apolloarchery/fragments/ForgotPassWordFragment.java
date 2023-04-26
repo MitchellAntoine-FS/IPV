@@ -10,29 +10,27 @@ import android.view.ViewGroup;
 
 import com.fullsail.apolloarchery.R;
 
+public class ForgotPassWordFragment extends Fragment {
 
-public class MainFragment extends Fragment {
-    public static final String TAG = "MainFragment.TAG";
 
-    public MainFragment() {
+    public ForgotPassWordFragment() {
         // Required empty public constructor
     }
 
-    public static MainFragment newInstance() {
-
-        return new MainFragment();
+    public static ForgotPassWordFragment newInstance() {
+        return new ForgotPassWordFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_forgot_password, container, false);
     }
+
 }

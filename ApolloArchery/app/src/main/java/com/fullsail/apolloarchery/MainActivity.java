@@ -1,11 +1,12 @@
 package com.fullsail.apolloarchery;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.fullsail.apolloarchery.fragments.MainFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
             if (!loggedIn) {
                 Intent logInIntent = new Intent(this, LoginActivity.class);
                 startActivity(logInIntent);
+            }else {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_container, MainFragment.newInstance(), MainFragment.TAG)
+                        .commit();
             }
         }
 

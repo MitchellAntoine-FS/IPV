@@ -1,6 +1,7 @@
 package com.fullsail.apolloarchery.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.fullsail.apolloarchery.CreateAccountActivity;
+import com.fullsail.apolloarchery.ForgotPasswordActivity;
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.object.LogInListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +30,7 @@ public class LoginFragment extends Fragment {
     public static final String TAG = "LoginFragment.TAG";
     private FirebaseAuth mAuth;
     EditText etEmail, etPassword;
-    Button logInBtn;
+    Button logInBtn, createAccountBtn, forgotPWordBtn;
     LogInListener mListener;
 
     public static LoginFragment newInstance() {
@@ -59,6 +62,20 @@ public class LoginFragment extends Fragment {
 
         // Instantiate objects
         mAuth = FirebaseAuth.getInstance();
+
+        // If user has no account, send to create an account.
+        createAccountBtn = view.findViewById(R.id.create_account_btn);
+        createAccountBtn.setOnClickListener(v -> {
+            Intent createAccountIntent = new Intent(requireContext(), CreateAccountActivity.class);
+            startActivity(createAccountIntent);
+        });
+
+        // Forgot Password
+        forgotPWordBtn = view.findViewById(R.id.forgot_password_btn);
+        forgotPWordBtn.setOnClickListener(v -> {
+            Intent forgotPWordIntent = new Intent(requireContext(), ForgotPasswordActivity.class);
+            startActivity(forgotPWordIntent);
+        });
 
         logInBtn = view.findViewById(R.id.login_btn);
         logInBtn.setOnClickListener(v -> {
