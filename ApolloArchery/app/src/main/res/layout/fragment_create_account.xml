@@ -140,7 +140,8 @@
         android:text="@string/password_label"
         android:textColor="#FBFAFA"
         app:layout_constraintStart_toStartOf="@+id/email_entry_create_account"
-        app:layout_constraintTop_toBottomOf="@+id/email_entry_create_account" />
+        app:layout_constraintTop_toBottomOf="@+id/email_entry_create_account"
+        tools:ignore="TextContrastCheck" />
 
     <Button
         android:id="@+id/button"
@@ -153,7 +154,8 @@
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/password_entry_create_account" />
+        app:layout_constraintTop_toBottomOf="@+id/password_entry_create_account"
+        tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
     <TextView
         android:id="@+id/loginBtn_createAccount"
@@ -162,7 +164,7 @@
         android:layout_marginStart="283dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/login_button"
+        android:text="@string/login_button_ca"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"

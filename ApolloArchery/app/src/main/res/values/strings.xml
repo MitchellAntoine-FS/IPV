@@ -6,10 +6,21 @@
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
     <string name="login_button">LOGIN</string>
+    <string name="login_button_ca">Login</string>
     <string name="password_hint">Password</string>
     <string name="email_hint">Email</string>
     <string name="forgot_password_text">Forgot Password</string>
     <string name="create_account">Create Account</string>
     <string name="first_name_label">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="new_round_btn">new_round</string>
+    <string name="profile_main_btn">profile_main</string>
+    <string name="arrow_counter_btn">arrow_counter</string>
+    <string name="site_mark_btn">site_mark</string>
+    <string name="new_round">New Round</string>
+    <string name="profile">Profile</string>
+    <string name="arrow_counter">Arrow Counter</string>
+    <string name="site_marks">Site Marks</string>
+    <string name="_000">000</string>
+    <string name="arrows_shot_today">Arrows shot today</string>
 </resources>
