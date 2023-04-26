@@ -2,7 +2,9 @@ package com.fullsail.apolloarchery.object;
 
 import androidx.annotation.NonNull;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable {
 
     private final String first_name;
     private final String last_name;

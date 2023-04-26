@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,8 @@ public class LoginFragment extends Fragment {
     public static final String TAG = "LoginFragment.TAG";
     private FirebaseAuth mAuth;
     EditText etEmail, etPassword;
-    Button logInBtn, createAccountBtn, forgotPWordBtn;
+    Button logInBtn;
+    TextView createAccountBtn, forgotPWordBtn;
     LogInListener mListener;
 
     public static LoginFragment newInstance() {
