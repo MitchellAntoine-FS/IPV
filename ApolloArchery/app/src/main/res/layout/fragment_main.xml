@@ -42,14 +42,15 @@
         android:layout_marginStart="46dp"
         android:layout_marginTop="72dp"
         android:clickable="true"
-        android:src="@drawable/arrow_counter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_round_btn"
         android:contentDescription="@string/arrow_counter_btn"
-        android:focusable="true" />
+        android:focusable="true"
+        android:src="@drawable/arrow_counter"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_round_btn" />
 
     <ImageView
-        android:id="@+id/sitemarks_btn"
+        android:id="@+id/site_marks_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
@@ -58,6 +59,7 @@
         android:contentDescription="@string/site_mark_btn"
         android:focusable="true"
         android:src="@drawable/sitemark"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_btn_main" />
 
@@ -88,6 +90,7 @@
         android:layout_marginStart="63dp"
         android:layout_marginTop="16dp"
         android:text="@string/arrow_counter"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/arrow_counter_btn" />
 
@@ -98,8 +101,9 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="75dp"
         android:text="@string/site_marks"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sitemarks_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/site_marks_btn" />
 
     <TextView
         android:id="@+id/arrow_count_display"
@@ -110,6 +114,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/_000"
         android:textSize="34sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/arrows_shot_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -123,6 +128,7 @@
         android:layout_marginBottom="46dp"
         android:text="@string/arrows_shot_today"
         android:textAlignment="center"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

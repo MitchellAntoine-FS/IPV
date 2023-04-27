@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.fullsail.apolloarchery.LoginActivity;
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.object.CreateAccountListener;
 import com.fullsail.apolloarchery.object.Person;
@@ -72,7 +73,7 @@ public class CreateAccountFragment extends Fragment {
 
         loginBtn = view.findViewById(R.id.loginBtn_createAccount);
         loginBtn.setOnClickListener(v -> {
-            Intent loginIntent = new Intent(requireContext(), LoginFragment.class);
+            Intent loginIntent = new Intent(requireContext(), LoginActivity.class);
             startActivity(loginIntent);
         });
 

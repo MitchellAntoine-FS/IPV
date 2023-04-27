@@ -119,7 +119,8 @@ public class LoginFragment extends Fragment {
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                        Toast.makeText(getContext(),"Hi Again " +  Objects.requireNonNull(user).getDisplayName(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Hello Again " +  Objects.requireNonNull(user).getDisplayName(),
+                                Toast.LENGTH_SHORT).show();
 
                         mListener.closeLogIn();
 
