@@ -6,8 +6,12 @@ import java.io.Serializable;
 
 public class Person implements Serializable {
 
-    private final String first_name;
-    private final String last_name;
+    private String first_name;
+    private String last_name;
+
+    public Person() {
+        // Required empty constructor
+    }
 
     public Person(String first_name, String last_name) {
         this.first_name = first_name;

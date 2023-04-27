@@ -1,9 +1,15 @@
 package com.fullsail.apolloarchery.fragments;
 
+import static android.R.layout.simple_spinner_item;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,18 +17,22 @@ import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.object.Round;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class RoundSetupFragment extends Fragment {
+public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "RoundSetupFragment";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ArrayList<Round> roundsList;
+    Spinner bowSpinner, arrowSpinner, rulesSpinner;
 
     public RoundSetupFragment() {
         // Required empty public constructor
     }
-
 
     public static RoundSetupFragment newInstance() {
 
@@ -46,14 +56,66 @@ public class RoundSetupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Round round = new Round("Portsmouth", 2,
-                new ArrayList<String>() {{ add("First half"); add("Second half"); }},
-                new ArrayList<String>() {{ add("30"); add("30");  }},
-                3);
+        roundsList = new ArrayList<>();
+        bowSpinner = view.findViewById(R.id.bow_spinner);
+        arrowSpinner = view.findViewById(R.id.arrow_spinner);
+        rulesSpinner = view.findViewById(R.id.rules_selection_spinner);
 
-        db.collection("rounds").document("new-round-id").set(round);
+        DocumentReference docRef = db.collection("rounds").document("portsmouth-id");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Round round = documentSnapshot.toObject(Round.class);
+
+                if (round != null) {
+                    roundsList.add(new Round(round.getRoundName(), round.getScoringType(),
+                            round.getDistances(), round.getArrowsDistance(), round.getArrowsPerEnd()));
+                    populateRulesSpinner();
+                    Log.i("onSuccess", "Round Name " + round.getRoundName() + ": List size " + roundsList.size());
+                }
+            }
+        });
+
+        populateBowSpinner();
+        populateArrowSpinner();
+
+    }
+
+    private void populateRulesSpinner() {
+
+        ArrayAdapter<Round> rulesSpinnerList = new ArrayAdapter<>(requireContext(), simple_spinner_item,
+                roundsList);
+
+        Log.i("populateRulesSpinner", "rounds list: " + roundsList.size());
+
+        rulesSpinner.setAdapter(rulesSpinnerList);
+        rulesSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void populateArrowSpinner() {
+        ArrayAdapter<String> spinnerList = new ArrayAdapter<>(requireContext(), simple_spinner_item,
+                getResources().getStringArray(R.array.arrowList));
+
+        arrowSpinner.setAdapter(spinnerList);
+        arrowSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void populateBowSpinner() {
+        ArrayAdapter<String> spinnerList = new ArrayAdapter<>(requireContext(), simple_spinner_item,
+                getResources().getStringArray(R.array.bowList));
+
+        bowSpinner.setAdapter(spinnerList);
+        bowSpinner.setOnItemSelectedListener(this);
+    }
 
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

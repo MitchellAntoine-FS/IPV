@@ -1,20 +1,26 @@
 package com.fullsail.apolloarchery.object;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class Round {
 
-    private final String roundName;
+
+    private String roundName;
     /* Scoring type: 0 - metric outdoors, 1 - imperial outdoors, 2 - indoors full,
        3 - indoors 3 spot, 4 - worcester */
-    private final int scoringType;
+    private int scoringType;
     // List of distances for the round include unit e.g. 90m or 100yd
-    private final List<String> distances;
+    private List<String> distances;
     // List of number of arrows shot at each distance
-    private final List<String> arrowsDistance;
+    private List<String> arrowsDistance;
     // Arrows per an end
-    private final int arrowsPerEnd;
+    private int arrowsPerEnd;
 
+    public Round() {
+        // Required empty constructor
+    }
 
     public Round(String roundName, int scoringType, List<String> distances, List<String> arrowsDistance, int arrowsPerEnd) {
         this.roundName = roundName;
@@ -42,5 +48,11 @@ public class Round {
 
     public int getArrowsPerEnd() {
         return arrowsPerEnd;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return roundName;
     }
 }
