@@ -1,11 +1,13 @@
 package com.fullsail.apolloarchery.object;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 
 import java.util.List;
 
-public class Round {
-
+public class Round implements Parcelable {
 
     private String roundName;
     /* Scoring type: 0 - metric outdoors, 1 - imperial outdoors, 2 - indoors full,
@@ -29,6 +31,26 @@ public class Round {
         this.arrowsDistance = arrowsDistance;
         this.arrowsPerEnd = arrowsPerEnd;
     }
+
+    protected Round(Parcel in) {
+        roundName = in.readString();
+        scoringType = in.readInt();
+        distances = in.createStringArrayList();
+        arrowsDistance = in.createStringArrayList();
+        arrowsPerEnd = in.readInt();
+    }
+
+    public static final Creator<Round> CREATOR = new Creator<Round>() {
+        @Override
+        public Round createFromParcel(Parcel in) {
+            return new Round(in);
+        }
+
+        @Override
+        public Round[] newArray(int size) {
+            return new Round[size];
+        }
+    };
 
     public String getRoundName() {
         return roundName;
@@ -54,5 +76,19 @@ public class Round {
     @Override
     public String toString() {
         return roundName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(roundName);
+        dest.writeInt(scoringType);
+        dest.writeStringList(distances);
+        dest.writeStringList(arrowsDistance);
+        dest.writeInt(arrowsPerEnd);
     }
 }

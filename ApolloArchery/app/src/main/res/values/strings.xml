@@ -37,6 +37,7 @@
     <string name="format">Format</string>
     <string name="round_setup_label">Round Setup</string>
     <string name="_0_0">0/0</string>
+    <string name="start_round_btn">START ROUND</string>
 
 
 </resources>
