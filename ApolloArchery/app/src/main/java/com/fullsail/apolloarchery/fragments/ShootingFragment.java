@@ -124,15 +124,18 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         nextBtn.setOnClickListener(v12 -> {
             if (totalArrowsShot != totalArrows) {
                 //Go to next End
-                endNum += 1;
+                endNum ++;
                 // Reset all score views
                 tvShotOne.setText(null);
                 tvShotOne.setBackgroundColor(Color.WHITE);
+                tvShotOne.setBackgroundResource(R.drawable.cell_shape);
                 tvShotOne.requestFocus();
                 tvShotTwo.setText(null);
                 tvShotTwo.setBackgroundColor(Color.WHITE);
+                tvShotTwo.setBackgroundResource(R.drawable.cell_shape);
                 tvShotThree.setText(null);
                 tvShotThree.setBackgroundColor(Color.WHITE);
+                tvShotThree.setBackgroundResource(R.drawable.cell_shape);
                 nextBtn.setEnabled(false);
                 unDoBtn.setEnabled(false);
 
@@ -171,50 +174,48 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         }
         int totalScore = totalArrows * maxArrowVal;
 
-        if (totalArrowsShot != totalArrows) {
-            if (shotCount != arrowsPerEnd) {
+        if (totalArrowsShot != totalArrows || shotCount != arrowsPerEnd) {
 
-                if (shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
-                    tvShotOne.requestFocus();
-                    tvShotOne.setText(shotString);
-                    tvShotOne.setBackgroundColor(bgColor);
-                    endScoreList.add(shotString);
-                    distanceValues.add(keyValue);
-                    if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
-                        tvShotOne.setTextColor(Color.WHITE);
-                    } else {
-                        tvShotOne.setTextColor(Color.BLACK);
-                    }
-                    unDoBtn.setEnabled(true);
+            if (shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
+                tvShotOne.requestFocus();
+                tvShotOne.setText(shotString);
+                tvShotOne.setBackgroundColor(bgColor);
+                endScoreList.add(shotString);
+                distanceValues.add(keyValue);
 
-                } else if (!shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
-                    tvShotTwo.requestFocus();
-                    tvShotTwo.setText(shotString);
-                    tvShotTwo.setBackgroundColor(bgColor);
-                    endScoreList.add(shotString);
-                    distanceValues.add(keyValue);
-                    if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
-                        tvShotTwo.setTextColor(Color.WHITE);
-                    } else {
-                        tvShotTwo.setTextColor(Color.BLACK);
-                    }
-                } else if (!shotOneString.isBlank() && !shotTwoString.isBlank() && shotThreeString.isBlank()) {
-                    tvShotThree.requestFocus();
-                    tvShotThree.setText(shotString);
-                    tvShotThree.setBackgroundColor(bgColor);
-                    endScoreList.add(shotString);
-                    distanceValues.add(keyValue);
-                    if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
-                        tvShotThree.setTextColor(Color.WHITE);
-                    } else {
-                        tvShotThree.setTextColor(Color.BLACK);
-                    }
-                } else if (!shotOneString.isEmpty() && !shotTwoString.isEmpty() && !shotThreeString.isEmpty()) {
-
-                    nextBtn.setEnabled(true);
+                if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                    tvShotOne.setTextColor(Color.WHITE);
+                } else {
+                    tvShotOne.setTextColor(Color.BLACK);
                 }
-
+                unDoBtn.setEnabled(true);
             }
+            else if (!shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
+                tvShotTwo.requestFocus();
+                tvShotTwo.setText(shotString);
+                tvShotTwo.setBackgroundColor(bgColor);
+                endScoreList.add(shotString);
+                distanceValues.add(keyValue);
+                if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                    tvShotTwo.setTextColor(Color.WHITE);
+                } else {
+                    tvShotTwo.setTextColor(Color.BLACK);
+                }
+            } else if (!shotOneString.isBlank() && !shotTwoString.isBlank() && shotThreeString.isBlank()) {
+                tvShotThree.requestFocus();
+                tvShotThree.setText(shotString);
+                tvShotThree.setBackgroundColor(bgColor);
+                endScoreList.add(shotString);
+                distanceValues.add(keyValue);
+                if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                    tvShotThree.setTextColor(Color.WHITE);
+                } else {
+                    tvShotThree.setTextColor(Color.BLACK);
+                }
+            } else if (!shotOneString.isEmpty() && !shotTwoString.isEmpty() && !shotThreeString.isEmpty()) {
+                    nextBtn.setEnabled(true);
+            }
+
         }else {
 
             historyRound.setArrowValues(roundScoreList);
