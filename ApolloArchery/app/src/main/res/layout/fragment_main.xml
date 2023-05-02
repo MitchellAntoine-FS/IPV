@@ -114,7 +114,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/_000"
         android:textSize="34sp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/arrows_shot_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -128,7 +128,7 @@
         android:layout_marginBottom="46dp"
         android:text="@string/arrows_shot_today"
         android:textAlignment="center"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -1,6 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ShootingFragment"/>
+    tools:context=".fragments.ShootingFragment">
+
+    <TextView
+        android:id="@+id/shooting_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/shooting_label_text"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/shooting_end_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shooting_label" />
+
+    <TextView
+        android:id="@+id/shooting_end_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shooting_label" />
+
+    <TextView
+        android:id="@+id/shooting_total_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shooting_label" />
+
+    <Button
+        android:id="@+id/undo_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="188dp"
+        android:text="@string/undo"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/next_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="188dp"
+        android:text="@string/next"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="TextContrastCheck" />
+
+    <ImageView
+        android:id="@+id/five_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/five_bn"
+        android:focusable="true"
+        android:src="@drawable/five"
+        app:layout_constraintStart_toStartOf="@+id/x_bn"
+        app:layout_constraintTop_toBottomOf="@+id/x_bn" />
+
+    <ImageView
+        android:id="@+id/four_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/four_bn"
+        android:focusable="true"
+        android:src="@drawable/four"
+        app:layout_constraintStart_toEndOf="@+id/five_bn"
+        app:layout_constraintTop_toTopOf="@+id/five_bn" />
+
+    <ImageView
+        android:id="@+id/three_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/three_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/three"
+        app:layout_constraintStart_toEndOf="@+id/four_bn"
+        app:layout_constraintTop_toTopOf="@+id/four_bn" />
+
+    <ImageView
+        android:id="@+id/two_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/two_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/two"
+        app:layout_constraintStart_toEndOf="@+id/three_bn"
+        app:layout_constraintTop_toTopOf="@+id/three_bn" />
+
+    <ImageView
+        android:id="@+id/one_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/one_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/one"
+        app:layout_constraintStart_toEndOf="@+id/two_bn"
+        app:layout_constraintTop_toTopOf="@+id/two_bn"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageView
+        android:id="@+id/miss_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/miss_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/miss"
+        app:layout_constraintStart_toEndOf="@+id/one_bn"
+        app:layout_constraintTop_toTopOf="@+id/one_bn"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageView
+        android:id="@+id/x_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="32dp"
+        android:clickable="true"
+        android:contentDescription="@string/bullseye_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/bullseye"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/undo_btn" />
+
+    <ImageView
+        android:id="@+id/ten_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/ten_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/ten"
+        app:layout_constraintStart_toEndOf="@+id/x_bn"
+        app:layout_constraintTop_toTopOf="@+id/x_bn" />
+
+    <ImageView
+        android:id="@+id/nine_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/nine_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/nine"
+        app:layout_constraintStart_toEndOf="@+id/ten_bn"
+        app:layout_constraintTop_toTopOf="@+id/ten_bn"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageView
+        android:id="@+id/eight_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/eight_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/eight"
+        app:layout_constraintStart_toEndOf="@+id/nine_bn"
+        app:layout_constraintTop_toTopOf="@+id/nine_bn" />
+
+    <ImageView
+        android:id="@+id/seven_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/seven_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/seven"
+        app:layout_constraintStart_toEndOf="@+id/eight_bn"
+        app:layout_constraintTop_toTopOf="@+id/eight_bn"
+        tools:ignore="ImageContrastCheck" />
+
+    <ImageView
+        android:id="@+id/six_bn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/six_bn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/six"
+        app:layout_constraintStart_toEndOf="@+id/seven_bn"
+        app:layout_constraintTop_toTopOf="@+id/seven_bn"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/shot_one_textView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:focusable="auto"
+        android:outlineProvider="paddedBounds"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/shot_two_textView"
+        app:layout_constraintTop_toTopOf="@+id/shot_two_textView"
+        tools:ignore="HardcodedText,TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/shot_three_textView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:focusable="auto"
+        android:outlineProvider="paddedBounds"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/shot_two_textView"
+        app:layout_constraintTop_toTopOf="@+id/shot_two_textView"
+        tools:ignore="HardcodedText,TextSizeCheck" />
+
+    <TextView
+        android:id="@+id/shot_two_textView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:focusable="auto"
+        android:outlineProvider="paddedBounds"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shooting_end_dist"
+        tools:ignore="HardcodedText,TextSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

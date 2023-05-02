@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/_04_14_2023"
+        android:hint="@string/_04_14_2023"
         app:layout_constraintStart_toEndOf="@+id/history_image"
         app:layout_constraintTop_toTopOf="@+id/history_image" />
 
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/history_rule_name"
+        android:hint="@string/history_rule_name"
         app:layout_constraintStart_toEndOf="@+id/history_date"
         app:layout_constraintTop_toTopOf="@+id/history_date" />
 
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="@string/_1437_1410"
+        android:hint="@string/_1437_1410"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/history_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

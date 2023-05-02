@@ -33,7 +33,7 @@
         tools:src="@drawable/baseline_profile" />
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/history_listView"
         android:layout_width="378dp"
         android:layout_height="321dp"
         android:layout_marginStart="16dp"
@@ -44,19 +44,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/history_searchView" />
 
-    <ViewStub
-        android:id="@android:id/empty"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/users_name"
-        android:layout="@layout/stub_empty_state" />
 
     <TextView
         android:id="@+id/users_name"

@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.RoundSelectionActivity;
 import com.fullsail.apolloarchery.object.Round;
+import com.fullsail.apolloarchery.util.RoundStorageUtil;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -29,6 +30,7 @@ public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSe
     public static final String TAG = "RoundSetupFragment";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Round> roundsList;
+    Round round;
     Spinner bowSpinner, arrowSpinner, rulesSpinner;
     private String docPath = " ";
 
@@ -65,9 +67,12 @@ public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSe
 
         DocumentReference docRef = db.collection("rounds").document("portsmouth-id");
         docRef.get().addOnSuccessListener(documentSnapshot -> {
-            Round round = documentSnapshot.toObject(Round.class);
+            round = documentSnapshot.toObject(Round.class);
 
             if (round != null) {
+
+                RoundStorageUtil.saveRound(getActivity(), round);
+
                 roundsList.add(new Round(round.getRoundName(), round.getScoringType(),
                         round.getDistances(), round.getArrowsDistance(), round.getArrowsPerEnd()));
                 populateRulesSpinner();
@@ -82,7 +87,7 @@ public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSe
         Button startRound = view.findViewById(R.id.start_round_button);
         startRound.setOnClickListener(v -> {
             Intent startRoundIntent = new Intent(requireContext(), RoundSelectionActivity.class);
-            startRoundIntent.putParcelableArrayListExtra("roundList", roundsList);
+            startRoundIntent.putExtra("round", round);
             startActivity(startRoundIntent);
         });
 

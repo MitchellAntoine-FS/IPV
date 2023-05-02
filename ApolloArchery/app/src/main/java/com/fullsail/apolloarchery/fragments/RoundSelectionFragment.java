@@ -1,6 +1,7 @@
 package com.fullsail.apolloarchery.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
+import com.fullsail.apolloarchery.ShootingActivity;
 import com.fullsail.apolloarchery.object.RoundSelectionListener;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public class RoundSelectionFragment extends Fragment {
 
     public static final String TAG = "RoundSelectionFragment";
 
-    TextView roundName, totalScore;
+    TextView roundName, roundScoreTotal;
     ListView roundListView;
    RoundSelectionListener mListener;
 
@@ -61,18 +63,21 @@ public class RoundSelectionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         roundName = view.findViewById(R.id.selected_round_name);
-        totalScore = view.findViewById(R.id.round_total_score);
+        roundScoreTotal = view.findViewById(R.id.round_total_score);
 
-        roundName.setText(mListener.getRoundList().get(0).getRoundName());
-        // totalScore.setText();
+        roundName.setText(mListener.getRoundList().getRoundName());
 
         roundListView = view.findViewById(R.id.round_selection_list);
-        roundListView.setAdapter(new RoundSelectionAdapter(mListener.getRoundList().get(0).getDistances(), requireContext()));
+        roundListView.setAdapter(new RoundSelectionAdapter(mListener.getRoundList().getDistances(), requireContext()));
 
         roundListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String dist = (String) parent.getAdapter().getItem(position);
 
+                Intent roundIntent = new Intent(requireContext(), ShootingActivity.class);
+                roundIntent.putExtra("round", mListener.getRoundList());
+                startActivity(roundIntent);
             }
         });
 
@@ -119,5 +124,7 @@ public class RoundSelectionFragment extends Fragment {
         }
 
     }
+
+
 
 }

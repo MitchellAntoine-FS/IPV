@@ -11,11 +11,11 @@ public class Round implements Parcelable {
 
     private String roundName;
     /* Scoring type: 0 - metric outdoors, 1 - imperial outdoors, 2 - indoors full,
-       3 - indoors 3 spot, 4 - worcester */
+       3 - indoors 3 spot,  */
     private int scoringType;
-    // List of distances for the round include unit e.g. 90m or 100yd
+    // List of distances for the round
     private List<String> distances;
-    // List of number of arrows shot at each distance
+    // List of, number of arrows shot at each distance
     private List<String> arrowsDistance;
     // Arrows per an end
     private int arrowsPerEnd;
