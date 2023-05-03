@@ -45,7 +45,7 @@ public class ShootingActivity extends AppCompatActivity implements ShootingListe
                 roundScore.getRound(), roundScore.getTotalScore(), roundScore.getArrowValues());
         db.collection("history").document("portsmouth-id").set(fireStoreSave);
 
-        finish();
+        // finish();
     }
 
 }
