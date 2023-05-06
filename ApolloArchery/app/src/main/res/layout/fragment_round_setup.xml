@@ -26,7 +26,7 @@
         android:id="@+id/equipment_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="@string/equipment_label"
         android:textAlignment="textStart"
@@ -35,56 +35,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/round_selection_label" />
 
-    <TextView
-        android:id="@+id/bow_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/bow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/equipment_label" />
-
-    <Spinner
-        android:id="@+id/bow_spinner"
-        android:layout_width="275dp"
-        android:layout_height="48dp"
-        app:layout_constraintStart_toStartOf="@+id/equipment_label"
-        app:layout_constraintTop_toTopOf="@+id/bow_label"
-        tools:ignore="DuplicateSpeakableTextCheck" />
-
-    <Spinner
-        android:id="@+id/arrow_spinner"
-        android:layout_width="274dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toEndOf="@+id/arrow_label"
-        app:layout_constraintTop_toBottomOf="@+id/bow_spinner" />
-
     <Spinner
         android:id="@+id/rules_selection_spinner"
         android:layout_width="265dp"
         android:layout_height="48dp"
-        app:layout_constraintStart_toStartOf="@+id/format_label"
-        app:layout_constraintTop_toTopOf="@+id/rules_selection_label" />
-
-    <TextView
-        android:id="@+id/arrow_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/arrow_selection_label"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/arrow_spinner" />
-
-    <TextView
-        android:id="@+id/rules_selection_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/rules_selection_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/format_label" />
 
@@ -92,13 +48,13 @@
         android:id="@+id/format_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
         android:text="@string/format"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/arrow_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/arrow_chips" />
 
     <Button
         android:id="@+id/start_round_button"
@@ -113,4 +69,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rules_selection_spinner"
         tools:ignore="TextContrastCheck" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/bow_chips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/equipment_label">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/compound_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/compound_bow" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/recurve_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recurve_bow" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/arrow_chips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bow_chips">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/small_arrow_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/small_diameter" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/large_arrow_chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/large_diameter" />
+    </com.google.android.material.chip.ChipGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

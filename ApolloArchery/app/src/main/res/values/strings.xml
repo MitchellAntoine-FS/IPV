@@ -59,6 +59,10 @@
     <string name="four_bn">four bn</string>
     <string name="archer_signature">Archer Signature</string>
     <string name="scorer_signature">Scorer Signature</string>
+    <string name="compound_bow">Compound Bow</string>
+    <string name="large_diameter">Large Diameter</string>
+    <string name="small_diameter">Small Diameter</string>
+    <string name="recurve_bow">Recurve Bow</string>
 
 
 </resources>

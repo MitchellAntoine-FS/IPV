@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.ShootingActivity;
+import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.RoundSelectionListener;
 
 import java.util.List;
@@ -48,7 +49,6 @@ public class RoundSelectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -65,10 +65,11 @@ public class RoundSelectionFragment extends Fragment {
         roundName = view.findViewById(R.id.selected_round_name);
         roundScoreTotal = view.findViewById(R.id.round_total_score);
 
-        roundName.setText(mListener.getRoundList().getRoundName());
+        roundName.setText(mListener.getSelectedRound().getRoundName());
 
         roundListView = view.findViewById(R.id.round_selection_list);
-        roundListView.setAdapter(new RoundSelectionAdapter(mListener.getRoundList().getDistances(), requireContext()));
+
+        roundListView.setAdapter(new RoundSelectionAdapter(mListener.getSelectedRound().getDistances(), requireContext()));
 
         roundListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -76,11 +77,10 @@ public class RoundSelectionFragment extends Fragment {
                 String dist = (String) parent.getAdapter().getItem(position);
 
                 Intent roundIntent = new Intent(requireContext(), ShootingActivity.class);
-                roundIntent.putExtra("round", mListener.getRoundList());
+                roundIntent.putExtra("round", mListener.getSelectedRound());
                 startActivity(roundIntent);
             }
         });
-
     }
 
     public static class RoundSelectionAdapter extends BaseAdapter {

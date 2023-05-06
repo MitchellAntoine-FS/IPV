@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fullsail.apolloarchery.fragments.ProfileFragment;
 import com.fullsail.apolloarchery.object.HistoryListener;
-import com.fullsail.apolloarchery.object.HistoryRound;
+import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity implements HistoryListener {
 
-    ArrayList<HistoryRound> historyRound;
+    ArrayList<HistoryRounds> historyRounds;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -23,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity implements HistoryListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        historyRound = new ArrayList<>();
+        historyRounds = new ArrayList<>();
 
 
         if (savedInstanceState == null) {
@@ -34,27 +34,26 @@ public class ProfileActivity extends AppCompatActivity implements HistoryListene
     }
 
     @Override
-    public ArrayList<HistoryRound> getHistory() {
+    public ArrayList<HistoryRounds> getHistory() {
 
         DocumentReference docRef = db.collection("history").document("portsmouth-id");
         docRef.get().addOnSuccessListener(documentSnapshot -> {
-          HistoryRound h = documentSnapshot.toObject(HistoryRound.class);
+          HistoryRounds h = documentSnapshot.toObject(HistoryRounds.class);
 
             if (h != null) {
-                historyRound.add(new HistoryRound(h.getDate(), h.getRoundName(),
-                        h.getRound(), h.getTotalScore(), h.getArrowValues()));
+
             }
         });
 
-        return historyRound;
+        return historyRounds;
     }
 
     @Override
-    public void getHistoricalData(HistoryRound historyRound, int position) {
+    public void getHistoricalData(HistoryRounds historyRounds, int position) {
 
         Intent intent = new Intent(this, ScoreCardActivity.class);
-        intent.putExtra("history", historyRound);
-        intent.putExtra("position", position);
+//        intent.putExtra("history", historyRounds);
+//        intent.putExtra("position", position);
         startActivity(intent);
     }
 

@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.fullsail.apolloarchery.fragments.MainFragment;
+import com.fullsail.apolloarchery.util.HistoryRoundDatabase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-
+    public static HistoryRoundDatabase historyRoundDatabase;
     private FirebaseAuth mAuth;
     private static boolean loggedIn;
 
@@ -35,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
             }
         }
-
+        // Setup History round database
+        historyRoundDatabase = Room.databaseBuilder(this, HistoryRoundDatabase.class, "HistoryRounds")
+                .allowMainThreadQueries().build();
     }
 
     @Override

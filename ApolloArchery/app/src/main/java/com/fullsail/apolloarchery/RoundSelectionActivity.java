@@ -34,7 +34,7 @@ public class RoundSelectionActivity extends AppCompatActivity implements RoundSe
     }
 
     @Override
-    public Round getRoundList() {
+    public Round getSelectedRound() {
         return round;
     }
 

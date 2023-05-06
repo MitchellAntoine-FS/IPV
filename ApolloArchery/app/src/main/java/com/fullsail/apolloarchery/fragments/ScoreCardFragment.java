@@ -18,17 +18,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
-import com.fullsail.apolloarchery.object.HistoryRound;
+import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.ScoreCardListener;
 import com.fullsail.apolloarchery.util.RoundStorageUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class ScoreCardFragment extends Fragment {
     public static final String TAG = "ScoreCardFragment";
 
-    HistoryRound current;
+    HistoryRounds current;
 
     ScoreCardListener mListener;
 
@@ -67,12 +70,19 @@ public class ScoreCardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         current = mListener.getRoundScore();
 
+        // Gson for reading serialised data
+        Gson gson = new Gson();
         // Getting all the fields
-        String date = current.getDate();
-        String roundName = current.getRoundName();
+        String date = current.date;
+        String roundName = current.roundName;
 
-        // getting the round serialised object
-        Round round = RoundStorageUtil.loadRounds(getActivity()).get(0);
+        String serialisedRound = current.round;
+        Round round = gson.fromJson(serialisedRound, Round.class);
+        // Getting the list of arrow values organised by distance serialised object.
+        String serialisedArrowValues = current.arrowValues;
+        // Getting the type of List<String[][]> from gson to use
+        Type arrowValuesType = new TypeToken<List<String>>(){}.getType();
+        List<String[][]> arrowValues = gson.fromJson(serialisedArrowValues, arrowValuesType);
 
         LinearLayout linearLayoutDistanceTables = view.findViewById(R.id.scorecard_layout_for_distance_tables);
         EditText archerSig = view.findViewById(R.id.scorecard_archer_sig);
@@ -81,8 +91,8 @@ public class ScoreCardFragment extends Fragment {
         TextView roundDateTextView = view.findViewById(R.id.scorecard_date);
         roundNameTextView.setText(roundName);
         roundDateTextView.setText(date);
-        archerSig.setText(current.getArcherString());
-        scorerSig.setText(current.getScorerString());
+        archerSig.setText(current.archerString);
+        scorerSig.setText(current.scorerString);
 
         // List of distances
         List<String> distances = round.getDistances();
@@ -121,7 +131,7 @@ public class ScoreCardFragment extends Fragment {
             linearLayoutDistanceTables.addView(distanceHeader);
             // Get arrow values for this distance
 
-            List<List<String>> distanceArrowValues = current.getArrowValues();
+            String[][] distanceArrowValues = arrowValues.get(i);
             // Get the number of ends at this distance
             int ends = Integer.parseInt(arrowsDistance.get(i)) / arrowsEnd;
 
@@ -184,7 +194,7 @@ public class ScoreCardFragment extends Fragment {
                         arrow.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         // Setting borders for cells
                         arrow.setBackgroundResource(R.drawable.cell_shape);
-                        String arrowValue = distanceArrowValues.get(j - 1).get(k);
+                        String arrowValue = distanceArrowValues[j - 1][k];
                         // Inputting arrow values
                         arrow.setText(arrowValue);
                         // Deal with different arrow values and adding them to ET
@@ -231,7 +241,7 @@ public class ScoreCardFragment extends Fragment {
         for (String i : round.getArrowsDistance()) {
             totalArrows += Integer.parseInt(i);
         }
-        float average = (float) current.getTotalScore() / totalArrows;
+        float average = (float) current.totalScore / totalArrows;
 
         int scoringType = round.getScoringType();
 

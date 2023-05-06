@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ShootingFragment">
 
+    <com.fullsail.apolloarchary.DrawingSurface
+        android:id="@+id/drawingSurface"
+        android:layout_width="0dp"
+        android:layout_height="362dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/six_shot_layout" />
+
     <TextView
         android:id="@+id/shooting_label"
         android:layout_width="wrap_content"
@@ -56,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="175dp"
         android:text="@string/undo"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,8 +78,8 @@
         android:id="@+id/next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="188dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="175dp"
         android:text="@string/next"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -138,11 +149,13 @@
         android:id="@+id/miss_bn"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginEnd="61dp"
         android:clickable="true"
         android:contentDescription="@string/miss_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:src="@drawable/miss"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/one_bn"
         app:layout_constraintTop_toTopOf="@+id/one_bn"
         tools:ignore="ImageContrastCheck" />
@@ -151,7 +164,7 @@
         android:id="@+id/x_bn"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="66dp"
+        android:layout_marginStart="62dp"
         android:layout_marginTop="32dp"
         android:clickable="true"
         android:contentDescription="@string/bullseye_bn"
@@ -196,7 +209,8 @@
         android:focusableInTouchMode="true"
         android:src="@drawable/eight"
         app:layout_constraintStart_toEndOf="@+id/nine_bn"
-        app:layout_constraintTop_toTopOf="@+id/nine_bn" />
+        app:layout_constraintTop_toTopOf="@+id/nine_bn"
+        tools:ignore="ImageContrastCheck" />
 
     <ImageView
         android:id="@+id/seven_bn"
@@ -224,45 +238,143 @@
         app:layout_constraintTop_toTopOf="@+id/seven_bn"
         tools:ignore="ImageContrastCheck" />
 
-    <TextView
-        android:id="@+id/shot_one_textView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:focusable="auto"
-        android:outlineProvider="paddedBounds"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:background="@drawable/cell_shape"
-        app:layout_constraintEnd_toStartOf="@+id/shot_two_textView"
-        app:layout_constraintTop_toTopOf="@+id/shot_two_textView"
-        tools:ignore="HardcodedText,TextSizeCheck" />
-
-    <TextView
-        android:id="@+id/shot_three_textView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:focusable="auto"
-        android:outlineProvider="paddedBounds"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:background="@drawable/cell_shape"
-        app:layout_constraintStart_toEndOf="@+id/shot_two_textView"
-        app:layout_constraintTop_toTopOf="@+id/shot_two_textView"
-        tools:ignore="HardcodedText,TextSizeCheck" />
-
-    <TextView
-        android:id="@+id/shot_two_textView"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="16dp"
-        android:focusable="auto"
-        android:outlineProvider="paddedBounds"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:background="@drawable/cell_shape"
+    <LinearLayout
+        android:id="@+id/three_shot_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shooting_end_dist"
-        tools:ignore="HardcodedText,TextSizeCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/shooting_end_dist">
+
+        <TextView
+            android:id="@+id/shot_one_textView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/shot_two_textView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck" />
+
+        <TextView
+            android:id="@+id/shot_three_textView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/six_shot_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shooting_end_dist">
+
+        <TextView
+            android:id="@+id/shot_one_text_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck"
+            tools:layout_editor_absoluteX="116dp"
+            tools:layout_editor_absoluteY="91dp" />
+
+        <TextView
+            android:id="@+id/shot_two_text_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck"
+            tools:layout_editor_absoluteX="146dp"
+            tools:layout_editor_absoluteY="91dp" />
+
+        <TextView
+            android:id="@+id/shot_three_text_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck"
+            tools:layout_editor_absoluteX="176dp"
+            tools:layout_editor_absoluteY="91dp" />
+
+        <TextView
+            android:id="@+id/shot_four_text_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck"
+            tools:layout_editor_absoluteX="206dp"
+            tools:layout_editor_absoluteY="91dp" />
+
+        <TextView
+            android:id="@+id/shot_five_text_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck"
+            tools:layout_editor_absoluteX="236dp"
+            tools:layout_editor_absoluteY="91dp" />
+
+        <TextView
+            android:id="@+id/shot_six_text_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/cell_shape"
+            android:focusable="auto"
+            android:outlineProvider="paddedBounds"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,TextSizeCheck"
+            tools:layout_editor_absoluteX="266dp"
+            tools:layout_editor_absoluteY="91dp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

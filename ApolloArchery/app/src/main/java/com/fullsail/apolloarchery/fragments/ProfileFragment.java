@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.adapters.HistoryAdapter;
 import com.fullsail.apolloarchery.object.HistoryListener;
-import com.fullsail.apolloarchery.object.HistoryRound;
+import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -83,10 +83,10 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HistoryRound historyRound = (HistoryRound) parent.getAdapter().getItem(position);
+        HistoryRounds historyRounds = (HistoryRounds) parent.getAdapter().getItem(position);
 
         if (mListener != null ) {
-            mListener.getHistoricalData(historyRound, position);
+            mListener.getHistoricalData(historyRounds, position);
         }
     }
 }

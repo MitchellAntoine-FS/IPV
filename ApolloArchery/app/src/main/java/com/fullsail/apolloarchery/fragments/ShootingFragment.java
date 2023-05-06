@@ -16,7 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
-import com.fullsail.apolloarchery.object.HistoryRound;
+import com.fullsail.apolloarchery.object.Distance;
+import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.ShootingListener;
 
@@ -29,14 +30,15 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
 
     View view;
-    private int arrowsPerEnd;
-    private int scoringType;
+    private int arrowsEnd;
+    private int end;
+    private int scoringStyle;
 
     private Round round;
     private int shotCount;
     private int keyValue;
     private String shotString = "";
-    private DateFormat date;
+
     private final List<List<String>> roundScoreList = new ArrayList<List<String>>();
     private List<String> endScoreList;
     private final List<Integer> distanceValues = new ArrayList<>();
@@ -50,7 +52,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
     ShootingListener mListener;
     int bgColor;
     int finalCurrentScore;
-    HistoryRound historyRound;
+    HistoryRounds historyRounds;
+    private List<Distance> distances = new ArrayList<>();
 
     public ShootingFragment() {
         // Required empty public constructor
@@ -87,7 +90,6 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         view = v;
 
-        date = DateFormat.getDateInstance();
         endNumber = v.findViewById(R.id.shooting_end_num);
         String endNumString = String.format(mEndNum + endNum);
         endNumber.setText(endNumString);
@@ -101,7 +103,6 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         unDoBtn = v.findViewById(R.id.undo_btn);
         unDoBtn.setEnabled(false);
         endScoreList = new ArrayList<>();
-
 
         v.findViewById(R.id.x_bn).setOnClickListener(this);
         v.findViewById(R.id.one_bn).setOnClickListener(this);
@@ -117,8 +118,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.miss_bn).setOnClickListener(this);
 
         round = mListener.getRound();
-        arrowsPerEnd = round.getArrowsPerEnd();
-        scoringType = round.getScoringType();
+        arrowsEnd = round.getArrowsPerEnd();
+        scoringStyle = round.getScoringType();
         arrowsDistance = round.getArrowsDistance();
 
         nextBtn.setOnClickListener(v12 -> {
@@ -174,10 +175,10 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         int currentScore = 0;
         int maxArrowVal;
 
-        if (scoringType == 0 || scoringType == 2 || scoringType == 3) {
+        if (scoringStyle == 0 || scoringStyle == 2 || scoringStyle == 3) {
             maxArrowVal = 10;
         }
-        else if (scoringType == 1) {
+        else if (scoringStyle == 1) {
             maxArrowVal = 9;
         }
         else {
@@ -187,12 +188,13 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
         for (int i = 0; i < arrowsDistance.size(); i++) {
             totalArrows = Integer.parseInt(arrowsDistance.get(i));
+            end = Integer.parseInt(arrowsDistance.get(i)) / arrowsEnd;
         }
         int totalScore = totalArrows * maxArrowVal;
 
-        if (totalArrowsShot <= totalArrows) {
+        for (int j = 0; j < end; j++) {
 
-            if (shotCount != arrowsPerEnd) {
+            for (int k = 0; k < arrowsEnd; k++) {
 
                 if (shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
                     tvShotOne.requestFocus();
@@ -230,28 +232,27 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
                         tvShotThree.setTextColor(Color.BLACK);
                     }
                 }
-            }else {
-                nextBtn.setEnabled(true);
+                if (shotCount == arrowsEnd){
+                    nextBtn.setEnabled(true);
+                }
             }
-        }
-        else {
+            if (totalArrowsShot == totalArrows){
 
-            historyRound.setArrowValues(roundScoreList);
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle("Round Complete");
+                dialog.setMessage("Go back and pick your next round.");
 
-            historyRound = new HistoryRound(date.toString(), round.getRoundName(), round.toString(), totalScore);
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-            dialog.setTitle("Round Complete");
-            dialog.setMessage("Go back and pick your next round.");
+                finalCurrentScore = currentScore;
+                dialog.setPositiveButton("YES", (dialog1, which) -> {
+                    mListener.nextRound(historyRounds, finalCurrentScore);
+                });
 
-            finalCurrentScore = currentScore;
-            dialog.setPositiveButton("YES", (dialog1, which) -> {
-                mListener.nextRound(historyRound, finalCurrentScore);
-            });
+                dialog.setNegativeButton("Cancel", (dialog12, which) -> {
 
-            dialog.setNegativeButton("Cancel", (dialog12, which) -> {
+                });
+                dialog.show();
+            }
 
-            });
-            dialog.show();
         }
 
         // Calculating round total score

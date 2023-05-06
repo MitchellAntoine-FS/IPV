@@ -2,6 +2,7 @@ package com.fullsail.apolloarchery.fragments;
 
 import static android.R.layout.simple_spinner_item;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.RoundSelectionActivity;
 import com.fullsail.apolloarchery.object.Round;
+import com.fullsail.apolloarchery.object.RoundSetupListener;
 import com.fullsail.apolloarchery.util.RoundStorageUtil;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,9 +31,10 @@ import java.util.ArrayList;
 public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "RoundSetupFragment";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    ArrayList<Round> roundsList;
     Round round;
-    Spinner bowSpinner, arrowSpinner, rulesSpinner;
+    Spinner rulesSpinner;
+    RoundSetupListener mListener;
+
     private String docPath = " ";
 
     public RoundSetupFragment() {
@@ -41,6 +44,14 @@ public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSe
     public static RoundSetupFragment newInstance() {
 
         return new RoundSetupFragment();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof RoundSetupListener) {
+            mListener = (RoundSetupListener) context;
+        }
     }
 
     @Override
@@ -60,28 +71,15 @@ public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        roundsList = new ArrayList<>();
-        bowSpinner = view.findViewById(R.id.bow_spinner);
-        arrowSpinner = view.findViewById(R.id.arrow_spinner);
         rulesSpinner = view.findViewById(R.id.rules_selection_spinner);
 
-        DocumentReference docRef = db.collection("rounds").document("portsmouth-id");
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            round = documentSnapshot.toObject(Round.class);
+        ArrayAdapter<Round> rulesSpinnerList = new ArrayAdapter<>(requireContext(), simple_spinner_item,
+                mListener.getRoundList());
 
-            if (round != null) {
+        Log.i("populateRulesSpinner", "rounds list: " + mListener.getRoundList().size());
 
-                RoundStorageUtil.saveRound(getActivity(), round);
-
-                roundsList.add(new Round(round.getRoundName(), round.getScoringType(),
-                        round.getDistances(), round.getArrowsDistance(), round.getArrowsPerEnd()));
-                populateRulesSpinner();
-                Log.i("onSuccess", "Round Name " + round.getRoundName() + ": List size " + roundsList.size());
-            }
-        });
-
-        populateBowSpinner();
-        populateArrowSpinner();
+        rulesSpinner.setAdapter(rulesSpinnerList);
+        rulesSpinner.setOnItemSelectedListener(this);
 
         // Start
         Button startRound = view.findViewById(R.id.start_round_button);
@@ -89,37 +87,10 @@ public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSe
             Intent startRoundIntent = new Intent(requireContext(), RoundSelectionActivity.class);
             startRoundIntent.putExtra("round", round);
             startActivity(startRoundIntent);
+
         });
 
     }
-
-    private void populateRulesSpinner() {
-
-        ArrayAdapter<Round> rulesSpinnerList = new ArrayAdapter<>(requireContext(), simple_spinner_item,
-                roundsList);
-
-        Log.i("populateRulesSpinner", "rounds list: " + roundsList.size());
-
-        rulesSpinner.setAdapter(rulesSpinnerList);
-        rulesSpinner.setOnItemSelectedListener(this);
-    }
-
-    private void populateArrowSpinner() {
-        ArrayAdapter<String> spinnerList = new ArrayAdapter<>(requireContext(), simple_spinner_item,
-                getResources().getStringArray(R.array.arrowList));
-
-        arrowSpinner.setAdapter(spinnerList);
-        arrowSpinner.setOnItemSelectedListener(this);
-    }
-
-    private void populateBowSpinner() {
-        ArrayAdapter<String> spinnerList = new ArrayAdapter<>(requireContext(), simple_spinner_item,
-                getResources().getStringArray(R.array.bowList));
-
-        bowSpinner.setAdapter(spinnerList);
-        bowSpinner.setOnItemSelectedListener(this);
-    }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -128,7 +99,30 @@ public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSe
 
         if (selectedSpinnerItem.contains("Portsmouth")) {
             docPath = "portsmouth-id";
+        }else if (selectedSpinnerItem.contains("WA1440 (Gents)")){
+            docPath = "wa1440_gents_id";
+        } else if (selectedSpinnerItem.contains("WA1440 (Ladies)")) {
+            docPath = "wa1440_ladies_id";
+        }else if (selectedSpinnerItem.contains("WA 70")) {
+            docPath = "wa70_id";
+        }else if (selectedSpinnerItem.contains("WA18 (Full Face)")) {
+            docPath = "wa18_id";
         }
+
+        Log.i("onViewCreated", "Document Path: " + docPath);
+
+        DocumentReference docRef = db.collection("rounds").document(docPath);
+
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+
+            Round r = documentSnapshot.toObject(Round.class);
+
+            if (r != null) {
+                round = r;
+                Log.i("onSuccess", "Round Setup Name " + round.getRoundName());
+            }
+        });
+
     }
 
     @Override
