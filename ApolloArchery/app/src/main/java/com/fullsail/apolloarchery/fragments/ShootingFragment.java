@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,7 +26,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShootingFragment extends Fragment implements View.OnClickListener {
+public class ShootingFragment extends Fragment implements View.OnTouchListener {
     public static final String TAG = "ShootingFragment";
 
 
@@ -118,18 +119,18 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         shotFiveTextView = v.findViewById(R.id.shot_five_text_view);
         shotSixTextView = v.findViewById(R.id.shot_six_text_view);
 
-        v.findViewById(R.id.x_bn).setOnClickListener(this);
-        v.findViewById(R.id.one_bn).setOnClickListener(this);
-        v.findViewById(R.id.two_bn).setOnClickListener(this);
-        v.findViewById(R.id.three_bn).setOnClickListener(this);
-        v.findViewById(R.id.four_bn).setOnClickListener(this);
-        v.findViewById(R.id.five_bn).setOnClickListener(this);
-        v.findViewById(R.id.six_bn).setOnClickListener(this);
-        v.findViewById(R.id.seven_bn).setOnClickListener(this);
-        v.findViewById(R.id.eight_bn).setOnClickListener(this);
-        v.findViewById(R.id.nine_bn).setOnClickListener(this);
-        v.findViewById(R.id.ten_bn).setOnClickListener(this);
-        v.findViewById(R.id.miss_bn).setOnClickListener(this);
+        v.findViewById(R.id.x_bn).setOnTouchListener(this);
+        v.findViewById(R.id.one_bn).setOnTouchListener(this);
+        v.findViewById(R.id.two_bn).setOnTouchListener(this);
+        v.findViewById(R.id.three_bn).setOnTouchListener(this);
+        v.findViewById(R.id.four_bn).setOnTouchListener(this);
+        v.findViewById(R.id.five_bn).setOnTouchListener(this);
+        v.findViewById(R.id.six_bn).setOnTouchListener(this);
+        v.findViewById(R.id.seven_bn).setOnTouchListener(this);
+        v.findViewById(R.id.eight_bn).setOnTouchListener(this);
+        v.findViewById(R.id.nine_bn).setOnTouchListener(this);
+        v.findViewById(R.id.ten_bn).setOnTouchListener(this);
+        v.findViewById(R.id.miss_bn).setOnTouchListener(this);
 
         Round round = mListener.getRound();
         arrowsEnd = round.getArrowsPerEnd();
@@ -146,9 +147,10 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
         nextBtn.setOnClickListener(v12 -> {
 
-            if (totalArrowsShot <= totalArrows) {
+            if (totalArrowsShot != totalArrows) {
 
                 if (arrowsEnd == 3) {
+                    
                     //Go to next End
                     endNum += 1;
                     // Reset all score views and values
@@ -170,7 +172,10 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
                     nextBtn.setEnabled(false);
                     unDoBtn.setEnabled(false);
 
-                }else if (arrowsEnd == 6) {
+                }
+                else if (arrowsEnd == 6) {
+
+
                     //Go to next End
                     endNum += 1;
                     // Reset all score views and values
@@ -243,6 +248,7 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
                     totalArrowsShot -= 1;
                     endScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
+                    nextBtn.setEnabled(false);
 
                 } else if (tvShotThree.getText() == null && tvShotTwo.getText() != null && tvShotOne.getText() != null) {
 
@@ -284,6 +290,7 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
                     totalArrowsShot -= 1;
                     endScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
+                    nextBtn.setEnabled(false);
 
                 }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() != null
                         && shotFourTextView.getText() != null && shotFiveTextView.getText() != null && shotSixTextView.getText() == null) {
@@ -401,7 +408,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
                         tvShotOne.setTextColor(Color.WHITE);
@@ -420,7 +428,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
@@ -440,21 +449,17 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
-
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
                             tvShotThree.setTextColor(Color.WHITE);
                         } else {
                         tvShotThree.setTextColor(Color.BLACK);
                         }
+                        nextBtn.setEnabled(true);
                     }
-                } else {
-                    nextBtn.setEnabled(true);
                 }
-
-            }else {
-                nextBtn.setEnabled(true);
             }
         }
         else if (arrowsEnd == 6) {
@@ -487,7 +492,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
@@ -510,7 +516,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
@@ -532,7 +539,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
@@ -554,7 +562,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
@@ -576,7 +585,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
@@ -598,7 +608,8 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
                         endScoreList.add(shotString);
                         distanceValues.add(keyValue);
-                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue
+                                + " value added; distanceValues contains: " + distanceValues.size() + " items.");
 
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
@@ -606,10 +617,9 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
                         } else {
                             shotSixTextView.setTextColor(Color.BLACK);
                         }
+                        nextBtn.setEnabled(true);
                     }
 
-                } else {
-                    nextBtn.setEnabled(true);
                 }
             }
         }
@@ -629,96 +639,6 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         endScore_roundScore.setText(totalScoreString);
     }
 
-    @Override
-    public void onClick(View v) {
-
-        if (v.getId() == R.id.x_bn) {
-            shotString = "X";
-            shotCount += 1;
-            keyValue = 10;
-            bgColor = Color.YELLOW;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.one_bn) {
-            shotString = "1";
-            shotCount += 1;
-            keyValue = 1;
-            bgColor = Color.WHITE;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.two_bn) {
-            shotString = "2";
-            shotCount += 1;
-            keyValue = 2;
-            bgColor = Color.WHITE;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.three_bn) {
-            shotString = "3";
-            shotCount += 1;
-            keyValue = 3;
-            bgColor = Color.BLACK;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.four_bn) {
-            shotString = "4";
-            shotCount += 1;
-            keyValue = 4;
-            bgColor = Color.BLACK;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.five_bn) {
-            shotString = "5";
-            shotCount += 1;
-            keyValue = 5;
-            bgColor = Color.BLUE;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.six_bn) {
-            shotString = "6";
-            shotCount += 1;
-            keyValue = 6;
-            bgColor = Color.BLUE;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.seven_bn) {
-            shotString = "7";
-            shotCount += 1;
-            keyValue = 7;
-            bgColor = Color.RED;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.eight_bn) {
-            shotString = "8";
-            shotCount += 1;
-            keyValue = 8;
-            bgColor = Color.RED;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.nine_bn) {
-            shotString = "9";
-            shotCount += 1;
-            keyValue = 9;
-            bgColor = Color.YELLOW;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.ten_bn) {
-            shotString = "10";
-            shotCount += 1;
-            keyValue = 10;
-            bgColor = Color.YELLOW;
-            shooting();
-            totalArrowsShot += 1;
-        }else if (v.getId() == R.id.miss_bn) {
-            shotString = "M";
-            shotCount += 1;
-            keyValue = 0;
-            bgColor = Color.GREEN;
-            shooting();
-            totalArrowsShot += 1;
-        }
-
-    }
 
     @Override
     public void onResume() {
@@ -726,5 +646,104 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
 
 
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            v.performClick();
+
+            if (v.getId() == R.id.x_bn) {
+                shotString = "X";
+                shotCount += 1;
+                keyValue = 10;
+                bgColor = Color.YELLOW;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.one_bn) {
+                shotString = "1";
+                shotCount += 1;
+                keyValue = 1;
+                bgColor = Color.WHITE;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.two_bn) {
+                shotString = "2";
+                shotCount += 1;
+                keyValue = 2;
+                bgColor = Color.WHITE;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.three_bn) {
+                shotString = "3";
+                shotCount += 1;
+                keyValue = 3;
+                bgColor = Color.BLACK;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.four_bn) {
+                shotString = "4";
+                shotCount += 1;
+                keyValue = 4;
+                bgColor = Color.BLACK;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.five_bn) {
+                shotString = "5";
+                shotCount += 1;
+                keyValue = 5;
+                bgColor = Color.BLUE;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.six_bn) {
+                shotString = "6";
+                shotCount += 1;
+                keyValue = 6;
+                bgColor = Color.BLUE;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.seven_bn) {
+                shotString = "7";
+                shotCount += 1;
+                keyValue = 7;
+                bgColor = Color.RED;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.eight_bn) {
+                shotString = "8";
+                shotCount += 1;
+                keyValue = 8;
+                bgColor = Color.RED;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.nine_bn) {
+                shotString = "9";
+                shotCount += 1;
+                keyValue = 9;
+                bgColor = Color.YELLOW;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.ten_bn) {
+                shotString = "10";
+                shotCount += 1;
+                keyValue = 10;
+                bgColor = Color.YELLOW;
+                shooting();
+                totalArrowsShot += 1;
+            } else if (v.getId() == R.id.miss_bn) {
+                shotString = "M";
+                shotCount += 1;
+                keyValue = 0;
+                bgColor = Color.GREEN;
+                shooting();
+                totalArrowsShot += 1;
+            }
+
+        }
+
+
+        return true;
     }
 }

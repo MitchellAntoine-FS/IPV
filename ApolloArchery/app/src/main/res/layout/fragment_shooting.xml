@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -90,12 +91,13 @@
         android:id="@+id/five_bn"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:background="@drawable/five"
         android:clickable="true"
         android:contentDescription="@string/five_bn"
         android:focusable="true"
-        android:src="@drawable/five"
         app:layout_constraintStart_toStartOf="@+id/x_bn"
-        app:layout_constraintTop_toBottomOf="@+id/x_bn" />
+        app:layout_constraintTop_toBottomOf="@+id/x_bn"
+        tools:ignore="ImageContrastCheck" />
 
     <ImageView
         android:id="@+id/four_bn"
@@ -104,7 +106,7 @@
         android:clickable="true"
         android:contentDescription="@string/four_bn"
         android:focusable="true"
-        android:src="@drawable/four"
+        android:background="@drawable/four"
         app:layout_constraintStart_toEndOf="@+id/five_bn"
         app:layout_constraintTop_toTopOf="@+id/five_bn" />
 
@@ -116,7 +118,7 @@
         android:contentDescription="@string/three_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/three"
+        android:background="@drawable/three"
         app:layout_constraintStart_toEndOf="@+id/four_bn"
         app:layout_constraintTop_toTopOf="@+id/four_bn" />
 
@@ -128,7 +130,7 @@
         android:contentDescription="@string/two_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/two"
+        android:background="@drawable/two"
         app:layout_constraintStart_toEndOf="@+id/three_bn"
         app:layout_constraintTop_toTopOf="@+id/three_bn" />
 
@@ -140,7 +142,7 @@
         android:contentDescription="@string/one_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/one"
+        android:background="@drawable/one"
         app:layout_constraintStart_toEndOf="@+id/two_bn"
         app:layout_constraintTop_toTopOf="@+id/two_bn"
         tools:ignore="ImageContrastCheck" />
@@ -154,7 +156,7 @@
         android:contentDescription="@string/miss_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/miss"
+        android:background="@drawable/miss"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/one_bn"
         app:layout_constraintTop_toTopOf="@+id/one_bn"
@@ -170,7 +172,7 @@
         android:contentDescription="@string/bullseye_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/bullseye"
+        android:background="@drawable/bullseye"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/undo_btn" />
 
@@ -182,7 +184,7 @@
         android:contentDescription="@string/ten_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/ten"
+        android:background="@drawable/ten"
         app:layout_constraintStart_toEndOf="@+id/x_bn"
         app:layout_constraintTop_toTopOf="@+id/x_bn" />
 
@@ -194,7 +196,7 @@
         android:contentDescription="@string/nine_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/nine"
+        android:background="@drawable/nine"
         app:layout_constraintStart_toEndOf="@+id/ten_bn"
         app:layout_constraintTop_toTopOf="@+id/ten_bn"
         tools:ignore="ImageContrastCheck" />
@@ -207,7 +209,7 @@
         android:contentDescription="@string/eight_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/eight"
+        android:background="@drawable/eight"
         app:layout_constraintStart_toEndOf="@+id/nine_bn"
         app:layout_constraintTop_toTopOf="@+id/nine_bn"
         tools:ignore="ImageContrastCheck" />
@@ -220,7 +222,7 @@
         android:contentDescription="@string/seven_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/seven"
+        android:background="@drawable/seven"
         app:layout_constraintStart_toEndOf="@+id/eight_bn"
         app:layout_constraintTop_toTopOf="@+id/eight_bn"
         tools:ignore="ImageContrastCheck" />
@@ -233,7 +235,7 @@
         android:contentDescription="@string/six_bn"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:src="@drawable/six"
+        android:background="@drawable/six"
         app:layout_constraintStart_toEndOf="@+id/seven_bn"
         app:layout_constraintTop_toTopOf="@+id/seven_bn"
         tools:ignore="ImageContrastCheck" />
