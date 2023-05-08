@@ -17,10 +17,12 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import com.fullsail.apolloarchery.ArrowCounterActivity;
 import com.fullsail.apolloarchery.ProfileActivity;
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.RoundSelectionActivity;
 import com.fullsail.apolloarchery.RoundSetupActivity;
+import com.fullsail.apolloarchery.SightMarksActivity;
 
 import java.time.LocalDate;
 
@@ -91,6 +93,17 @@ public class MainFragment extends Fragment {
             Intent profileIntent = new Intent(getContext(), ProfileActivity.class);
             startActivity(profileIntent);
         });
+
+        arrowCounterBtn.setOnClickListener(v -> {
+            Intent counterIntent = new Intent(requireActivity(), ArrowCounterActivity.class);
+            counterIntent.putExtra("ArrowCounter", dailyCount);
+            startActivity(counterIntent);
+        });
+
+        siteMarksBtn.setOnClickListener(v -> {
+            Intent sightMarkIntent = new Intent(requireActivity(), SightMarksActivity.class);
+            startActivity(sightMarkIntent);
+        });
     }
 
     @SuppressLint("DefaultLocale")
@@ -137,7 +150,7 @@ public class MainFragment extends Fragment {
         }else {
             newRoundBtn.setOnClickListener(v -> {
                 newRoundLabel.setText(R.string.continue_round);
-                Intent roundSetupIntent = new Intent(requireContext(), RoundSelectionActivity.class);
+                Intent roundSetupIntent = new Intent(requireContext(), RoundSetupActivity.class);
                 startActivity(roundSetupIntent);
             });
         }

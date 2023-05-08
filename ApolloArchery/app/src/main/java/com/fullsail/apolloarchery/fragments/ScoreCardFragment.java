@@ -21,7 +21,6 @@ import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.ScoreCardListener;
-import com.fullsail.apolloarchery.util.RoundStorageUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -97,7 +96,7 @@ public class ScoreCardFragment extends Fragment {
         // List of distances
         List<String> distances = round.getDistances();
         // List of number of arrows at each distance
-        List<String> arrowsDistance = round.getArrowsDistance();
+        List<String> arrowsDistance = round.getArrowsDistances();
         int arrowsEnd = round.getArrowsPerEnd();
         // Variable to store ET values
         int ETVal;
@@ -238,7 +237,7 @@ public class ScoreCardFragment extends Fragment {
 
         // Calculating the values we need
         int totalArrows = 0;
-        for (String i : round.getArrowsDistance()) {
+        for (String i : round.getArrowsDistances()) {
             totalArrows += Integer.parseInt(i);
         }
         float average = (float) current.totalScore / totalArrows;

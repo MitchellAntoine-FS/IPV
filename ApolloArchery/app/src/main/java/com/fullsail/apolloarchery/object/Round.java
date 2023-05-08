@@ -16,7 +16,7 @@ public class Round implements Parcelable {
     // List of distances for the round
     private List<String> distances;
     // List of, number of arrows shot at each distance
-    private List<String> arrowsDistance;
+    private List<String> arrowsDistances;
     // Arrows per an end
     private int arrowsPerEnd;
 
@@ -24,11 +24,11 @@ public class Round implements Parcelable {
         // Required empty constructor
     }
 
-    public Round(String roundName, int scoringType, List<String> distances, List<String> arrowsDistance, int arrowsPerEnd) {
+    public Round(String roundName, int scoringType, List<String> distances, List<String> arrowsDistances, int arrowsPerEnd) {
         this.roundName = roundName;
         this.scoringType = scoringType;
         this.distances = distances;
-        this.arrowsDistance = arrowsDistance;
+        this.arrowsDistances = arrowsDistances;
         this.arrowsPerEnd = arrowsPerEnd;
     }
 
@@ -36,7 +36,7 @@ public class Round implements Parcelable {
         roundName = in.readString();
         scoringType = in.readInt();
         distances = in.createStringArrayList();
-        arrowsDistance = in.createStringArrayList();
+        arrowsDistances = in.createStringArrayList();
         arrowsPerEnd = in.readInt();
     }
 
@@ -64,8 +64,8 @@ public class Round implements Parcelable {
         return distances;
     }
 
-    public List<String> getArrowsDistance() {
-        return arrowsDistance;
+    public List<String> getArrowsDistances() {
+        return arrowsDistances;
     }
 
     public int getArrowsPerEnd() {
@@ -88,7 +88,7 @@ public class Round implements Parcelable {
         dest.writeString(roundName);
         dest.writeInt(scoringType);
         dest.writeStringList(distances);
-        dest.writeStringList(arrowsDistance);
+        dest.writeStringList(arrowsDistances);
         dest.writeInt(arrowsPerEnd);
     }
 }

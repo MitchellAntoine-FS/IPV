@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Apollo Archery</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_screen_label">Login</string>
     <string name="email_label">Email</string>
     <string name="password_label">Password</string>
@@ -63,6 +61,9 @@
     <string name="large_diameter">Large Diameter</string>
     <string name="small_diameter">Small Diameter</string>
     <string name="recurve_bow">Recurve Bow</string>
+    <string name="sight_mark_add">sight mark add</string>
+    <string name="neg">-</string>
+    <string name="pos">+</string>
 
 
 </resources>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
-import com.fullsail.apolloarchery.object.Distance;
 import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.ShootingListener;
+import com.google.gson.Gson;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +34,11 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
     private int end;
     private int scoringStyle;
 
-    private Round round;
     private int shotCount;
     private int keyValue;
     private String shotString = "";
 
-    private final List<List<String>> roundScoreList = new ArrayList<List<String>>();
+    private final List<String[][]> arrowsValuesList = new ArrayList<>();
     private List<String> endScoreList;
     private final List<Integer> distanceValues = new ArrayList<>();
     private int totalArrowsShot = 0;
@@ -48,12 +47,17 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
     int totalArrows = 0;
     Button nextBtn, unDoBtn;
     TextView endNumber, distDisplay, endScore_roundScore, tvShotOne, tvShotTwo, tvShotThree;
-    List<String> arrowsDistance;
+    TextView shotOneTextView, shotTwoTextView, shotThreeTextView, shotFourTextView;
+    TextView shotFiveTextView, shotSixTextView;
+    List<String> arrowsDistances;
     ShootingListener mListener;
     int bgColor;
     int finalCurrentScore;
+    LinearLayout threeShotLayout, sixShotLayout;
     HistoryRounds historyRounds;
-    private List<Distance> distances = new ArrayList<>();
+
+    String  shotOneString, shotTwoString, shotThreeString;
+
 
     public ShootingFragment() {
         // Required empty public constructor
@@ -90,6 +94,7 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         view = v;
 
+        Gson gson = new Gson();
         endNumber = v.findViewById(R.id.shooting_end_num);
         String endNumString = String.format(mEndNum + endNum);
         endNumber.setText(endNumString);
@@ -103,6 +108,15 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         unDoBtn = v.findViewById(R.id.undo_btn);
         unDoBtn.setEnabled(false);
         endScoreList = new ArrayList<>();
+        threeShotLayout = v.findViewById(R.id.three_shot_layout);
+        sixShotLayout = v.findViewById(R.id.six_shot_layout);
+
+        shotOneTextView = v.findViewById(R.id.shot_one_text_view);
+        shotTwoTextView = v.findViewById(R.id.shot_two_text_view);
+        shotThreeTextView = v.findViewById(R.id.shot_three_text_view);
+        shotFourTextView = v.findViewById(R.id.shot_four_text_view);
+        shotFiveTextView = v.findViewById(R.id.shot_five_text_view);
+        shotSixTextView = v.findViewById(R.id.shot_six_text_view);
 
         v.findViewById(R.id.x_bn).setOnClickListener(this);
         v.findViewById(R.id.one_bn).setOnClickListener(this);
@@ -117,62 +131,232 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.ten_bn).setOnClickListener(this);
         v.findViewById(R.id.miss_bn).setOnClickListener(this);
 
-        round = mListener.getRound();
+        Round round = mListener.getRound();
         arrowsEnd = round.getArrowsPerEnd();
         scoringStyle = round.getScoringType();
-        arrowsDistance = round.getArrowsDistance();
+        arrowsDistances = round.getArrowsDistances();
+
+        if (arrowsEnd == 3) {
+            threeShotLayout.setVisibility(View.VISIBLE);
+            sixShotLayout.setVisibility(View.GONE);
+        }else if (arrowsEnd == 6) {
+            threeShotLayout.setVisibility(View.GONE);
+            sixShotLayout.setVisibility(View.VISIBLE);
+        }
 
         nextBtn.setOnClickListener(v12 -> {
-            if (totalArrowsShot != totalArrows) {
-                //Go to next End
-                endNum ++;
-                // Reset all score views
-                tvShotOne.setText(null);
-                tvShotOne.setBackgroundColor(Color.WHITE);
-                tvShotOne.setBackgroundResource(R.drawable.cell_shape);
-                tvShotOne.requestFocus();
-                tvShotTwo.setText(null);
-                tvShotTwo.setBackgroundColor(Color.WHITE);
-                tvShotTwo.setBackgroundResource(R.drawable.cell_shape);
-                tvShotTwo.setText(null);
-                tvShotTwo.setBackgroundColor(Color.WHITE);
-                tvShotTwo.setBackgroundResource(R.drawable.cell_shape);
-                nextBtn.setEnabled(false);
-                unDoBtn.setEnabled(false);
 
-                roundScoreList.add(endScoreList);
-                endScoreList.clear();
+            if (totalArrowsShot <= totalArrows) {
+
+                if (arrowsEnd == 3) {
+                    //Go to next End
+                    endNum += 1;
+                    // Reset all score views and values
+                    shotCount = 0;
+
+                    tvShotOne.setText(null);
+                    tvShotOne.setBackgroundColor(Color.WHITE);
+                    tvShotOne.setBackgroundResource(R.drawable.cell_shape);
+                    tvShotOne.requestFocus();
+
+                    tvShotTwo.setText(null);
+                    tvShotTwo.setBackgroundColor(Color.WHITE);
+                    tvShotTwo.setBackgroundResource(R.drawable.cell_shape);
+
+                    tvShotThree.setText(null);
+                    tvShotThree.setBackgroundColor(Color.WHITE);
+                    tvShotThree.setBackgroundResource(R.drawable.cell_shape);
+
+                    nextBtn.setEnabled(false);
+                    unDoBtn.setEnabled(false);
+
+                }else if (arrowsEnd == 6) {
+                    //Go to next End
+                    endNum += 1;
+                    // Reset all score views and values
+                    shotCount = 0;
+
+                    shotOneTextView.setText(null);
+                    shotOneTextView.setBackgroundColor(Color.WHITE);
+                    shotOneTextView.setBackgroundResource(R.drawable.cell_shape);
+                    shotOneTextView.requestFocus();
+
+                    shotTwoTextView.setText(null);
+                    shotTwoTextView.setBackgroundColor(Color.WHITE);
+                    shotTwoTextView.setBackgroundResource(R.drawable.cell_shape);
+
+                    shotThreeTextView.setText(null);
+                    shotThreeTextView.setBackgroundColor(Color.WHITE);
+                    shotThreeTextView.setBackgroundResource(R.drawable.cell_shape);
+
+                    shotFourTextView.setText(null);
+                    shotFourTextView.setBackgroundColor(Color.WHITE);
+                    shotFourTextView.setBackgroundResource(R.drawable.cell_shape);
+
+                    shotFiveTextView.setText(null);
+                    shotFiveTextView.setBackgroundColor(Color.WHITE);
+                    shotFiveTextView.setBackgroundResource(R.drawable.cell_shape);
+
+                    shotSixTextView.setText(null);
+                    shotSixTextView.setBackgroundColor(Color.WHITE);
+                    shotSixTextView.setBackgroundResource(R.drawable.cell_shape);
+
+                    nextBtn.setEnabled(false);
+                    unDoBtn.setEnabled(false);
+                }
+
+                // Update End text view
+                String endNumberString = String.format(mEndNum + endNum);
+                endNumber.setText(endNumberString);
+
+            }else {
+
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle("Round Complete");
+                dialog.setMessage("Go back and pick your next round.");
+
+                dialog.setPositiveButton("YES", (dialog1, which) -> {
+                    mListener.nextRound(round, finalCurrentScore, endScoreList);
+                });
+
+                dialog.setNegativeButton("Cancel", (dialog12, which) -> {
+
+                });
+                dialog.show();
+
             }
         });
 
         unDoBtn.setOnClickListener(v1 -> {
-            endScoreList.remove(shotString);
-            distanceValues.remove(keyValue);
-            if (tvShotOne.isFocused()) {
-                tvShotOne.setText(null);
-                tvShotOne.setBackgroundColor(Color.WHITE);
-                tvShotOne.setBackgroundResource(R.drawable.cell_shape);
-            }else if (tvShotTwo.isFocused()) {
-                tvShotTwo.setText(null);
-                tvShotTwo.setBackgroundColor(Color.WHITE);
-                tvShotTwo.setBackgroundResource(R.drawable.cell_shape);
-            }else if (tvShotThree.isFocused()) {
-                tvShotTwo.setText(null);
-                tvShotTwo.setBackgroundColor(Color.WHITE);
-                tvShotTwo.setBackgroundResource(R.drawable.cell_shape);
+
+            if (arrowsEnd == 3) {
+
+                if (tvShotOne.getText() != null && tvShotTwo.getText() != null && tvShotThree.getText() != null) {
+                    // Clear shot and reset focus
+                    tvShotThree.setText(null);
+                    tvShotThree.setBackgroundColor(Color.WHITE);
+                    tvShotThree.setBackgroundResource(R.drawable.cell_shape);
+                    tvShotTwo.requestFocus();
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                } else if (tvShotThree.getText() == null && tvShotTwo.getText() != null && tvShotOne.getText() != null) {
+
+                    tvShotTwo.setText(null);
+                    tvShotTwo.setBackgroundColor(Color.WHITE);
+                    tvShotTwo.setBackgroundResource(R.drawable.cell_shape);
+                    tvShotOne.requestFocus();
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                } else if (tvShotThree.getText() == null && tvShotTwo.getText() == null && tvShotOne.getText() != null) {
+
+                    tvShotOne.setText(null);
+                    tvShotOne.setBackgroundColor(Color.WHITE);
+                    tvShotOne.setBackgroundResource(R.drawable.cell_shape);
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                }
+
+            }
+            else if (arrowsEnd == 6) {
+
+                if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() != null
+                        && shotFourTextView.getText() != null && shotFiveTextView.getText() != null && shotSixTextView.getText() != null) {
+
+                    shotSixTextView.setText(null);
+                    shotSixTextView.setBackgroundColor(Color.WHITE);
+                    shotSixTextView.setBackgroundResource(R.drawable.cell_shape);
+                    shotFiveTextView.requestFocus();
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() != null
+                        && shotFourTextView.getText() != null && shotFiveTextView.getText() != null && shotSixTextView.getText() == null) {
+
+                    shotFiveTextView.setText(null);
+                    shotFiveTextView.setBackgroundColor(Color.WHITE);
+                    shotFiveTextView.setBackgroundResource(R.drawable.cell_shape);
+                    shotFourTextView.requestFocus();
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() != null
+                        && shotFourTextView.getText() != null && shotFiveTextView.getText() == null && shotSixTextView.getText() == null) {
+
+                    shotFourTextView.setText(null);
+                    shotFourTextView.setBackgroundColor(Color.WHITE);
+                    shotFourTextView.setBackgroundResource(R.drawable.cell_shape);
+                    shotThreeTextView.requestFocus();
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() != null
+                        && shotFourTextView.getText() == null && shotFiveTextView.getText() == null && shotSixTextView.getText() == null) {
+
+                    shotThreeTextView.setText(null);
+                    shotThreeTextView.setBackgroundColor(Color.WHITE);
+                    shotThreeTextView.setBackgroundResource(R.drawable.cell_shape);
+                    shotTwoTextView.requestFocus();
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() == null
+                        && shotFourTextView.getText() == null && shotFiveTextView.getText() == null && shotSixTextView.getText() == null) {
+
+                    shotTwoTextView.setText(null);
+                    shotTwoTextView.setBackgroundColor(Color.WHITE);
+                    shotTwoTextView.setBackgroundResource(R.drawable.cell_shape);
+                    shotOneTextView.requestFocus();
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() == null && shotThreeTextView.getText() == null
+                        && shotFourTextView.getText() == null && shotFiveTextView.getText() == null && shotSixTextView.getText() == null) {
+
+                    shotOneTextView.setText(null);
+                    shotOneTextView.setBackgroundColor(Color.WHITE);
+                    shotOneTextView.setBackgroundResource(R.drawable.cell_shape);
+
+                    shotCount -= 1;
+                    totalArrowsShot -= 1;
+                    endScoreList.remove(shotString);
+                    distanceValues.remove(distanceValues.size() - 1);
+
+                }
+
             }
         });
-
     }
 
     private void shooting() {
 
-        String  shotOneString, shotTwoString, shotThreeString;
-        shotOneString = tvShotOne.getText().toString();
-        shotTwoString = tvShotTwo.getText().toString();
-        shotThreeString = tvShotThree.getText().toString();
-
-        int currentScore = 0;
         int maxArrowVal;
 
         if (scoringStyle == 0 || scoringStyle == 2 || scoringStyle == 3) {
@@ -186,83 +370,263 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
             Log.d("Scoring", "Error loading from shared preferences");
         }
 
-        for (int i = 0; i < arrowsDistance.size(); i++) {
-            totalArrows = Integer.parseInt(arrowsDistance.get(i));
-            end = Integer.parseInt(arrowsDistance.get(i)) / arrowsEnd;
+        for (int i = 0; i < arrowsDistances.size(); i++) {
+            totalArrows = Integer.parseInt(arrowsDistances.get(i));
+            end = Integer.parseInt(arrowsDistances.get(i)) / arrowsEnd;
         }
+
         int totalScore = totalArrows * maxArrowVal;
 
-        for (int j = 0; j < end; j++) {
+        if (arrowsEnd == 3) {
 
-            for (int k = 0; k < arrowsEnd; k++) {
+            shotOneString = tvShotOne.getText().toString();
+            shotTwoString = tvShotTwo.getText().toString();
+            shotThreeString = tvShotThree.getText().toString();
 
-                if (shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
-                    tvShotOne.requestFocus();
-                    tvShotOne.setText(shotString);
-                    tvShotOne.setBackgroundColor(bgColor);
-                    endScoreList.add(shotString);
-                    distanceValues.add(keyValue);
+            if (totalArrowsShot != totalArrows) {
 
-                    if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                if (shotCount <= arrowsEnd) {
+                    Log.i(TAG, "shooting: Shot Count 3 per end " + shotCount);
+
+                    if (shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
+
+                        unDoBtn.setEnabled(true);
+
+                        tvShotOne.requestFocus();
+                        Log.i(TAG, "shooting: First Arrow in Focus");
+                        tvShotOne.setText(shotString);
+                        tvShotOne.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
                         tvShotOne.setTextColor(Color.WHITE);
-                    } else {
+                        } else {
                         tvShotOne.setTextColor(Color.BLACK);
-                    }
-                    unDoBtn.setEnabled(true);
-                } else if (!shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
-                    tvShotTwo.requestFocus();
-                    tvShotTwo.setText(shotString);
-                    tvShotTwo.setBackgroundColor(bgColor);
-                    endScoreList.add(shotString);
-                    distanceValues.add(keyValue);
-                    if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                        }
+
+                    } else if (!shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
+
+                        tvShotTwo.requestFocus();
+                        Log.i(TAG, "shooting: Second Arrow in Focus");
+                        tvShotTwo.setText(shotString);
+                        tvShotTwo.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
                         tvShotTwo.setTextColor(Color.WHITE);
-                    } else {
+                        } else {
                         tvShotTwo.setTextColor(Color.BLACK);
-                    }
-                } else if (!shotOneString.isBlank() && !shotTwoString.isBlank() && shotThreeString.isBlank()) {
-                    tvShotThree.requestFocus();
-                    tvShotThree.setText(shotString);
-                    tvShotThree.setBackgroundColor(bgColor);
-                    endScoreList.add(shotString);
-                    distanceValues.add(keyValue);
-                    if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
-                        tvShotThree.setTextColor(Color.WHITE);
-                    } else {
+                        }
+
+                    } else if (!shotOneString.isBlank() && !shotTwoString.isBlank() && shotThreeString.isBlank()) {
+
+                        tvShotThree.requestFocus();
+                        Log.i(TAG, "shooting: Third Arrow in Focus");
+                        tvShotThree.setText(shotString);
+                        tvShotThree.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                            tvShotThree.setTextColor(Color.WHITE);
+                        } else {
                         tvShotThree.setTextColor(Color.BLACK);
+                        }
                     }
+                } else {
+                    nextBtn.setEnabled(true);
                 }
-                if (shotCount == arrowsEnd){
+
+            }else {
+                nextBtn.setEnabled(true);
+            }
+        }
+        else if (arrowsEnd == 6) {
+
+            String shotOne, shotTwo, shotThree, shotFour, shotFive, shotSix;
+            shotOne = shotOneTextView.getText().toString();
+            shotTwo = shotTwoTextView.getText().toString();
+            shotThree = shotThreeTextView.getText().toString();
+            shotFour = shotFourTextView.getText().toString();
+            shotFive = shotFiveTextView.getText().toString();
+            shotSix = shotSixTextView.getText().toString();
+
+            for (int i = 0; i < totalArrows; i++) {
+
+                if (shotCount <= arrowsEnd) {
+                    Log.i(TAG, "shooting: Shot Count 6 per end " + shotCount);
+
+                    if (shotOne.isBlank() && shotTwo.isBlank()  && shotThree.isBlank()
+                            && shotFour.isBlank()  && shotFive.isBlank()  && shotSix.isBlank() ) {
+
+                        unDoBtn.setEnabled(true);
+
+                        shotOneTextView.setFocusable(true);
+                        Log.i(TAG, "shooting: First Arrow in Focus");
+
+                        shotOneTextView.setText(shotString);
+                        shotOneTextView.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                            shotOneTextView.setTextColor(Color.WHITE);
+                        } else {
+                            shotOneTextView.setTextColor(Color.BLACK);
+                        }
+
+                    }
+                    else if (!shotOne.isBlank() && shotTwo.isBlank()  && shotThree.isBlank()
+                            && shotFour.isBlank()  && shotFive.isBlank()  && shotSix.isBlank()) {
+
+                        shotTwoTextView.setFocusable(true);
+                        Log.i(TAG, "shooting: Second Arrow in Focus");
+
+                        shotTwoTextView.setText(shotString);
+                        shotTwoTextView.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                            shotTwoTextView.setTextColor(Color.WHITE);
+                        } else {
+                            shotTwoTextView.setTextColor(Color.BLACK);
+                        }
+                    }
+                    else if (!shotOne.isBlank() && !shotTwo.isBlank()  && shotThree.isBlank()
+                            && shotFour.isBlank()  && shotFive.isBlank()  && shotSix.isBlank()) {
+
+                        shotThreeTextView.setFocusable(true);
+                        Log.i(TAG, "shooting: Third Arrow in Focus");
+
+                        shotThreeTextView.setText(shotString);
+                        shotThreeTextView.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                            shotThreeTextView.setTextColor(Color.WHITE);
+                        } else {
+                            shotThreeTextView.setTextColor(Color.BLACK);
+                        }
+                    }
+                    else if (!shotOne.isBlank() && !shotTwo.isBlank()  && !shotThree.isBlank()
+                            && shotFour.isBlank()  && shotFive.isBlank()  && shotSix.isBlank()) {
+
+                        shotFourTextView.setFocusable(true);
+                        Log.i(TAG, "shooting: Fourth Arrow in Focus");
+
+                        shotFourTextView.setText(shotString);
+                        shotFourTextView.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                            shotFourTextView.setTextColor(Color.WHITE);
+                        } else {
+                            shotFourTextView.setTextColor(Color.BLACK);
+                        }
+                    }
+                    else if (!shotOne.isBlank() && !shotTwo.isBlank()  && !shotThree.isBlank()
+                            && !shotFour.isBlank()  && shotFive.isBlank()  && shotSix.isBlank()) {
+
+                        shotFiveTextView.setFocusable(true);
+                        Log.i(TAG, "shooting: Fiftieth Arrow in Focus");
+
+                        shotFiveTextView.setText(shotString);
+                        shotFiveTextView.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                            shotFiveTextView.setTextColor(Color.WHITE);
+                        } else {
+                            shotFiveTextView.setTextColor(Color.BLACK);
+                        }
+                    }
+                    else if (!shotOne.isBlank() && !shotTwo.isBlank()  && !shotThree.isBlank()
+                            && !shotFour.isBlank()  && !shotFive.isBlank()  && shotSix.isBlank()) {
+
+                        shotSixTextView.setFocusable(true);
+                        Log.i(TAG, "shooting: Sixth Arrow in Focus");
+
+                        shotSixTextView.setText(shotString);
+                        shotSixTextView.setBackgroundColor(bgColor);
+
+                        Log.i(TAG, "shooting: Shot String " + shotString);
+
+                        endScoreList.add(shotString);
+                        distanceValues.add(keyValue);
+                        Log.i(TAG, "shooting: Distance value list: " + keyValue + " value added; distanceValues contains: " + distanceValues.size() + " items.");
+
+
+                        if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
+                            shotSixTextView.setTextColor(Color.WHITE);
+                        } else {
+                            shotSixTextView.setTextColor(Color.BLACK);
+                        }
+                    }
+
+                } else {
                     nextBtn.setEnabled(true);
                 }
             }
-            if (totalArrowsShot == totalArrows){
-
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                dialog.setTitle("Round Complete");
-                dialog.setMessage("Go back and pick your next round.");
-
-                finalCurrentScore = currentScore;
-                dialog.setPositiveButton("YES", (dialog1, which) -> {
-                    mListener.nextRound(historyRounds, finalCurrentScore);
-                });
-
-                dialog.setNegativeButton("Cancel", (dialog12, which) -> {
-
-                });
-                dialog.show();
-            }
-
         }
 
+        int currentScore = 0;
         // Calculating round total score
         for (int i = 0; i < distanceValues.size(); i++) {
             currentScore += distanceValues.get(i);
+
+            Log.i(TAG, "shooting: Current Score " + currentScore);
         }
+
+        finalCurrentScore = currentScore;
         String totalScoreString = currentScore + "/" + totalScore;
+
+        Log.i(TAG, "shooting: Total Score String " + totalScoreString);
         endScore_roundScore.setText(totalScoreString);
-
-
     }
 
     @Override
@@ -274,6 +638,7 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
             keyValue = 10;
             bgColor = Color.YELLOW;
             shooting();
+            totalArrowsShot += 1;
         }else if (v.getId() == R.id.one_bn) {
             shotString = "1";
             shotCount += 1;

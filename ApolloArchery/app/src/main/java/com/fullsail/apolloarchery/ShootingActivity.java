@@ -8,11 +8,12 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fullsail.apolloarchery.fragments.ShootingFragment;
-import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.ShootingListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 public class ShootingActivity extends AppCompatActivity implements ShootingListener {
     private static final String TAG = "ShootingActivity";
@@ -70,11 +71,8 @@ public class ShootingActivity extends AppCompatActivity implements ShootingListe
     }
 
     @Override
-    public void nextRound(HistoryRounds roundScore, int score) {
-
-
-
-
+    public void nextRound(Round round, int score, List<String> arrowsValuesList) {
+        finish();
     }
 
 }

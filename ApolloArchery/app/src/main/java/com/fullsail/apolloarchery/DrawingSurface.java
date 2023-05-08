@@ -17,8 +17,6 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
-import com.google.rpc.context.AttributeContext;
-
 import java.util.ArrayList;
 
 public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callback {
@@ -74,18 +72,15 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
         super.onDraw(canvas);
 
         // Clear the canvas by drawing a single color
-        canvas.drawColor(Color.BLACK);
+        canvas.drawColor(Color.WHITE);
 
         // Draw the background image to fill the entire surface of the canvas
         canvas.drawBitmap(mBackground, null, mDimensions, mBlankPaint);
 
         // Draw a circle on each touch point
         for (Point p : mPoints){
-            canvas.drawCircle(p.x, p.y, 35.0f, mBlackHolePaint);
+            canvas.drawCircle(p.x, p.y, 10.0f, mBlackHolePaint);
         }
-
-        // Draw some text in the middle of the screen
-        canvas.drawText("Hey Antoine", mDimensions.width()/2.7f, mDimensions.height()/2.0f, mTextPaint);
 
     }
 
