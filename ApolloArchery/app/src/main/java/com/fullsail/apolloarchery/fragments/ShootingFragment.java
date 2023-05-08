@@ -385,7 +385,7 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
 
             if (totalArrowsShot != totalArrows) {
 
-                if (shotCount <= arrowsEnd) {
+                if (shotCount <= arrowsEnd || nextBtn.isEnabled()) {
                     Log.i(TAG, "shooting: Shot Count 3 per end " + shotCount);
 
                     if (shotOneString.isBlank() && shotTwoString.isBlank() && shotThreeString.isBlank()) {
@@ -467,9 +467,9 @@ public class ShootingFragment extends Fragment implements View.OnClickListener {
             shotFive = shotFiveTextView.getText().toString();
             shotSix = shotSixTextView.getText().toString();
 
-            for (int i = 0; i < totalArrows; i++) {
+            if (totalArrowsShot != totalArrows) {
 
-                if (shotCount <= arrowsEnd) {
+                if (shotCount <= arrowsEnd || nextBtn.isEnabled()) {
                     Log.i(TAG, "shooting: Shot Count 6 per end " + shotCount);
 
                     if (shotOne.isBlank() && shotTwo.isBlank()  && shotThree.isBlank()
