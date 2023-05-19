@@ -18,10 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
-import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.ShootingListener;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +35,8 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
     private int shotCount;
     private int keyValue;
-    private String shotString = "";
-
-    private final List<String[][]> arrowsValuesList = new ArrayList<>();
-    private List<String> endScoreList;
+    public static String shotString = "";
+    private List<String> arrowsScoreList;
     private final List<Integer> distanceValues = new ArrayList<>();
     private int totalArrowsShot = 0;
     String mEndNum = "End";
@@ -51,14 +47,15 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
     TextView shotOneTextView, shotTwoTextView, shotThreeTextView, shotFourTextView;
     TextView shotFiveTextView, shotSixTextView;
     List<String> arrowsDistances;
+    List<String> arrowsAtDistance;
     ShootingListener mListener;
     int bgColor;
     int finalCurrentScore;
     LinearLayout threeShotLayout, sixShotLayout;
-    HistoryRounds historyRounds;
 
     String  shotOneString, shotTwoString, shotThreeString;
 
+    String shotOne, shotTwo, shotThree, shotFour, shotFive, shotSix;
 
     public ShootingFragment() {
         // Required empty public constructor
@@ -95,7 +92,6 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
         super.onViewCreated(view, savedInstanceState);
         view = v;
 
-        Gson gson = new Gson();
         endNumber = v.findViewById(R.id.shooting_end_num);
         String endNumString = String.format(mEndNum + endNum);
         endNumber.setText(endNumString);
@@ -108,7 +104,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
         nextBtn.setEnabled(false);
         unDoBtn = v.findViewById(R.id.undo_btn);
         unDoBtn.setEnabled(false);
-        endScoreList = new ArrayList<>();
+        arrowsScoreList = new ArrayList<>();
         threeShotLayout = v.findViewById(R.id.three_shot_layout);
         sixShotLayout = v.findViewById(R.id.six_shot_layout);
 
@@ -132,9 +128,17 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
         v.findViewById(R.id.ten_bn).setOnTouchListener(this);
         v.findViewById(R.id.miss_bn).setOnTouchListener(this);
 
+        shotOne = shotOneTextView.getText().toString();
+        shotTwo = shotTwoTextView.getText().toString();
+        shotThree = shotThreeTextView.getText().toString();
+        shotFour = shotFourTextView.getText().toString();
+        shotFive = shotFiveTextView.getText().toString();
+        shotSix = shotSixTextView.getText().toString();
+
         Round round = mListener.getRound();
         arrowsEnd = round.getArrowsPerEnd();
         scoringStyle = round.getScoringType();
+        arrowsAtDistance = round.getArrowsDistances();
         arrowsDistances = round.getArrowsDistances();
 
         if (arrowsEnd == 3) {
@@ -150,7 +154,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
             if (totalArrowsShot != totalArrows) {
 
                 if (arrowsEnd == 3) {
-                    
+
                     //Go to next End
                     endNum += 1;
                     // Reset all score views and values
@@ -174,7 +178,6 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                 }
                 else if (arrowsEnd == 6) {
-
 
                     //Go to next End
                     endNum += 1;
@@ -222,7 +225,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
                 dialog.setMessage("Go back and pick your next round.");
 
                 dialog.setPositiveButton("YES", (dialog1, which) -> {
-                    mListener.nextRound(round, finalCurrentScore, endScoreList);
+                    mListener.nextRound(totalArrowsShot, arrowsScoreList);
                 });
 
                 dialog.setNegativeButton("Cancel", (dialog12, which) -> {
@@ -246,7 +249,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
                     nextBtn.setEnabled(false);
 
@@ -259,7 +262,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
 
                 } else if (tvShotThree.getText() == null && tvShotTwo.getText() == null && tvShotOne.getText() != null) {
@@ -270,7 +273,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
 
                 }
@@ -288,7 +291,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
                     nextBtn.setEnabled(false);
 
@@ -302,7 +305,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
 
                 }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() != null
@@ -315,7 +318,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
 
                 }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() != null
@@ -328,7 +331,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
 
                 }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() != null && shotThreeTextView.getText() == null
@@ -341,7 +344,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
 
                 }else if (shotOneTextView.getText() != null && shotTwoTextView.getText() == null && shotThreeTextView.getText() == null
@@ -353,7 +356,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                     shotCount -= 1;
                     totalArrowsShot -= 1;
-                    endScoreList.remove(shotString);
+                    arrowsScoreList.remove(shotString);
                     distanceValues.remove(distanceValues.size() - 1);
 
                 }
@@ -406,7 +409,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
@@ -426,7 +429,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
@@ -447,7 +450,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
@@ -463,14 +466,6 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
             }
         }
         else if (arrowsEnd == 6) {
-
-            String shotOne, shotTwo, shotThree, shotFour, shotFive, shotSix;
-            shotOne = shotOneTextView.getText().toString();
-            shotTwo = shotTwoTextView.getText().toString();
-            shotThree = shotThreeTextView.getText().toString();
-            shotFour = shotFourTextView.getText().toString();
-            shotFive = shotFiveTextView.getText().toString();
-            shotSix = shotSixTextView.getText().toString();
 
             if (totalArrowsShot != totalArrows) {
 
@@ -490,7 +485,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
@@ -514,7 +509,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
@@ -537,7 +532,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
@@ -560,7 +555,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
@@ -583,7 +578,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
@@ -606,11 +601,10 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
                         Log.i(TAG, "shooting: Shot String " + shotString);
 
-                        endScoreList.add(shotString);
+                        arrowsScoreList.add(shotString);
                         distanceValues.add(keyValue);
                         Log.i(TAG, "shooting: Distance value list: " + keyValue
                                 + " value added; distanceValues contains: " + distanceValues.size() + " items.");
-
 
                         if (bgColor == Color.BLACK || bgColor == Color.BLUE) {
                             shotSixTextView.setTextColor(Color.WHITE);
@@ -637,15 +631,6 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
         Log.i(TAG, "shooting: Total Score String " + totalScoreString);
         endScore_roundScore.setText(totalScoreString);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-
-
     }
 
     @Override

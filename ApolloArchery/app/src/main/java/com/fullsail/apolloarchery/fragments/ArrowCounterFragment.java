@@ -2,19 +2,17 @@ package com.fullsail.apolloarchery.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.object.ArrowCounterListener;
@@ -62,11 +60,11 @@ public class ArrowCounterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        arrowCounterTextView = view.findViewById(R.id.arrow_counter);
+        arrowCounterTextView = view.findViewById(R.id.arrow_counter_textView);
         arrowCount = mListener.getCount();
         arrowCounterTextView.setText(String.format(Locale.getDefault(),"%03d", arrowCount));
 
-        Button arrowCountAddButton = view.findViewById(R.id.arrow_counter_add);
+        Button arrowCountAddButton = view.findViewById(R.id.arrow_counter_add_btn);
         arrowCountAddButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("DefaultLocale")
             @Override
@@ -76,7 +74,7 @@ public class ArrowCounterFragment extends Fragment {
             }
         });
 
-        Button arrowCountMinusButton = view.findViewById(R.id.arrow_counter_minus);
+        Button arrowCountMinusButton = view.findViewById(R.id.arrow_counter_minus_btn);
         arrowCountMinusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

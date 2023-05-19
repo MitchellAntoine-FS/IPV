@@ -17,6 +17,8 @@ import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
+import com.fullsail.apolloarchery.fragments.ShootingFragment;
+
 import java.util.ArrayList;
 
 public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callback {
@@ -26,6 +28,8 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
     private Paint mTextPaint;
     private Paint mBlackHolePaint;
     ArrayList<Point> mPoints;
+
+    private String mShotString;
 
     private Bitmap mBackground;
 
@@ -65,6 +69,8 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
         mBlackHolePaint.setColor(Color.BLACK);
 
         mPoints = new ArrayList<>();
+
+        mShotString = ShootingFragment.shotString;
     }
 
     @Override
@@ -95,6 +101,7 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
                     (int) event.getX(),
                     (int) event.getY()
             ));
+
 
             // Tell the view to re-draw on the next canvas
             postInvalidate();
@@ -127,5 +134,20 @@ public class DrawingSurface extends SurfaceView implements SurfaceHolder.Callbac
 
         // Release the canvas and post a draw.
         holder.unlockCanvasAndPost(canvas);
+    }
+
+    private void drawTargetForHits() {
+
+        // Check screen orientation
+        float targetCenter;
+        if (mDimensions.width() < mDimensions.height()) {
+            targetCenter = mDimensions.width() / 2f;
+        } else {
+            targetCenter = mDimensions.height() / 2f;
+        }
+
+
+
+
     }
 }

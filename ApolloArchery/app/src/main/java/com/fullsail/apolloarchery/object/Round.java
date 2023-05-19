@@ -20,8 +20,11 @@ public class Round implements Parcelable {
     // Arrows per an end
     private int arrowsPerEnd;
 
+    private int distanceValue = 0;
+
     public Round() {
         // Required empty constructor
+
     }
 
     public Round(String roundName, int scoringType, List<String> distances, List<String> arrowsDistances, int arrowsPerEnd) {
@@ -38,6 +41,11 @@ public class Round implements Parcelable {
         distances = in.createStringArrayList();
         arrowsDistances = in.createStringArrayList();
         arrowsPerEnd = in.readInt();
+    }
+
+    public Round(int distanceValue) {
+
+        this.distanceValue = distanceValue;
     }
 
     public static final Creator<Round> CREATOR = new Creator<Round>() {
@@ -70,6 +78,10 @@ public class Round implements Parcelable {
 
     public int getArrowsPerEnd() {
         return arrowsPerEnd;
+    }
+
+    public int getDistanceValue() {
+        return distanceValue;
     }
 
     @NonNull

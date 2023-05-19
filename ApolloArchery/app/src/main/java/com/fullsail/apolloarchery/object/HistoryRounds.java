@@ -1,15 +1,8 @@
 package com.fullsail.apolloarchery.object;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import java.util.List;
 
 @Entity(tableName = "HistoryRounds")
 public class HistoryRounds {

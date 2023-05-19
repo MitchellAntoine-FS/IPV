@@ -5,5 +5,6 @@ import java.util.List;
 public interface ShootingListener {
     Round getRound();
 
-    void nextRound(Round round, int finalCurrentScore, List<String> endScoreList);
+    void nextRound(int totalArrowsShot, List<String> arrowsScoreList);
+
 }

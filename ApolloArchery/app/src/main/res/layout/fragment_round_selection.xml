@@ -35,8 +35,8 @@
 
     <ListView
         android:id="@+id/round_selection_list"
-        android:layout_width="409dp"
-        android:layout_height="521dp"
+        android:layout_width="411dp"
+        android:layout_height="449dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -46,7 +46,7 @@
         app:layout_constraintTop_toBottomOf="@+id/selected_round_name" />
 
     <TextView
-        android:id="@+id/round_total_score"
+        android:id="@+id/total_score_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -56,5 +56,18 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/round_selection_label" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/save_fAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:contentDescription="@string/save"
+        android:src="@android:drawable/ic_menu_save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

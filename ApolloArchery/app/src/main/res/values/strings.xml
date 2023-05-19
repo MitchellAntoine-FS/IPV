@@ -64,6 +64,8 @@
     <string name="sight_mark_add">sight mark add</string>
     <string name="neg">-</string>
     <string name="pos">+</string>
+    <string name="save">save</string>
+    <string name="sight_marks_label">Sight Marks</string>
 
 
 </resources>

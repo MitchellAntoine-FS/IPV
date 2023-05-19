@@ -22,11 +22,8 @@ import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.RoundSelectionActivity;
 import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.RoundSetupListener;
-import com.fullsail.apolloarchery.util.RoundStorageUtil;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.ArrayList;
 
 public class RoundSetupFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     public static final String TAG = "RoundSetupFragment";

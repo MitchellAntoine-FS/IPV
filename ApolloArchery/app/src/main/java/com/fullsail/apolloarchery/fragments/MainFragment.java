@@ -30,7 +30,7 @@ import java.time.LocalDate;
 public class MainFragment extends Fragment {
     public static final String TAG = "MainFragment.TAG";
 
-    private SharedPreferences sharedPreferencesArrowCounter;
+
     private SharedPreferences sharedPreferencesScoring;
     private SharedPreferences.Editor editor;
     TextView arrowDayTotals;
@@ -112,7 +112,7 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // sharedPreferences set up
-        sharedPreferencesArrowCounter = requireActivity().getSharedPreferences("ArrowCounter", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferencesArrowCounter = requireActivity().getSharedPreferences("ArrowCounter", Context.MODE_PRIVATE);
         editor = sharedPreferencesArrowCounter.edit();
 
         // Getting daily counter values and last reset day values from shared preferences
@@ -162,7 +162,7 @@ public class MainFragment extends Fragment {
         super.onPause();
 
         // sharedPreferences set up
-        sharedPreferencesArrowCounter = requireActivity().getSharedPreferences("ArrowCounter", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferencesArrowCounter = requireActivity().getSharedPreferences("ArrowCounter", Context.MODE_PRIVATE);
         editor = sharedPreferencesArrowCounter.edit();
 
         // Saving dailyCount

@@ -7,10 +7,10 @@
     tools:context=".ArrowCounterActivity">
 
     <Button
-        android:id="@+id/arrow_counter_minus"
+        android:id="@+id/arrow_counter_minus_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/arrow_counter"
+        android:layout_below="@+id/arrow_counter_textView"
         android:layout_centerInParent="true"
         android:layout_marginStart="106dp"
         android:layout_marginTop="24dp"
@@ -21,13 +21,13 @@
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/arrow_counter" />
+        app:layout_constraintTop_toBottomOf="@+id/arrow_counter_textView" />
 
     <Button
-        android:id="@+id/arrow_counter_add"
+        android:id="@+id/arrow_counter_add_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/arrow_counter"
+        android:layout_above="@+id/arrow_counter_textView"
         android:layout_centerInParent="true"
         android:layout_marginStart="106dp"
         android:layout_marginTop="188dp"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/arrow_couter_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="175dp"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/arrow_counter"
+        android:id="@+id/arrow_counter_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="121dp"
@@ -66,6 +66,6 @@
         android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/arrow_counter_add" />
+        app:layout_constraintTop_toBottomOf="@+id/arrow_counter_add_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
