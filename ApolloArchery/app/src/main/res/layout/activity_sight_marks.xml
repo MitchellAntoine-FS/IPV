@@ -5,6 +5,4 @@
     android:id="@+id/sight_marks_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SightMarksActivity">
-
-</FrameLayout>
+    tools:context=".SightMarksActivity"/>

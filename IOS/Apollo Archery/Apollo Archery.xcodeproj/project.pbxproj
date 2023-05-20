@@ -13,6 +13,10 @@
 		648D02BB2A14427A00C46CDD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 648D02B92A14427A00C46CDD /* Main.storyboard */; };
 		648D02BD2A14427C00C46CDD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 648D02BC2A14427C00C46CDD /* Assets.xcassets */; };
 		648D02C02A14427C00C46CDD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 648D02BE2A14427C00C46CDD /* LaunchScreen.storyboard */; };
+		64B114842A1698E600D647A0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 64B114832A1698E600D647A0 /* FirebaseAuth */; };
+		64B114862A1698E600D647A0 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 64B114852A1698E600D647A0 /* FirebaseFirestore */; };
+		64B114882A1698E600D647A0 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 64B114872A1698E600D647A0 /* FirebaseFirestoreSwift */; };
+		64B911202A17F7ED0054FC5D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 64B9111F2A17F7ED0054FC5D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,7 @@
 		648D02BC2A14427C00C46CDD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		648D02BF2A14427C00C46CDD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		648D02C12A14427C00C46CDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		64B9111F2A17F7ED0054FC5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +36,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64B114842A1698E600D647A0 /* FirebaseAuth in Frameworks */,
+				64B114862A1698E600D647A0 /* FirebaseFirestore in Frameworks */,
+				64B114882A1698E600D647A0 /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +71,7 @@
 				648D02BC2A14427C00C46CDD /* Assets.xcassets */,
 				648D02BE2A14427C00C46CDD /* LaunchScreen.storyboard */,
 				648D02C12A14427C00C46CDD /* Info.plist */,
+				64B9111F2A17F7ED0054FC5D /* GoogleService-Info.plist */,
 			);
 			path = "Apollo Archery";
 			sourceTree = "<group>";
@@ -83,6 +92,11 @@
 			dependencies = (
 			);
 			name = "Apollo Archery";
+			packageProductDependencies = (
+				64B114832A1698E600D647A0 /* FirebaseAuth */,
+				64B114852A1698E600D647A0 /* FirebaseFirestore */,
+				64B114872A1698E600D647A0 /* FirebaseFirestoreSwift */,
+			);
 			productName = "Apollo Archery";
 			productReference = 648D02B02A14427A00C46CDD /* Apollo Archery.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +125,9 @@
 				Base,
 			);
 			mainGroup = 648D02A72A14427A00C46CDD;
+			packageReferences = (
+				64B114822A1698E600D647A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 648D02B12A14427A00C46CDD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -126,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				648D02C02A14427C00C46CDD /* LaunchScreen.storyboard in Resources */,
+				64B911202A17F7ED0054FC5D /* GoogleService-Info.plist in Resources */,
 				648D02BD2A14427C00C46CDD /* Assets.xcassets in Resources */,
 				648D02BB2A14427A00C46CDD /* Main.storyboard in Resources */,
 			);
@@ -287,14 +305,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 9J2XD6FT5T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Apollo Archery/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Apollo Archery";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,14 +336,17 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 9J2XD6FT5T;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Apollo Archery/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Apollo Archery";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -358,6 +382,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		64B114822A1698E600D647A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		64B114832A1698E600D647A0 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64B114822A1698E600D647A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		64B114852A1698E600D647A0 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64B114822A1698E600D647A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		64B114872A1698E600D647A0 /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 64B114822A1698E600D647A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 648D02A82A14427A00C46CDD /* Project object */;
 }

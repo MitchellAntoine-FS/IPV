@@ -6,17 +6,16 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/round_selection_name_textView"
+        android:id="@+id/sight_mark_dist_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/round_total_score_textView"
+        android:id="@+id/sights_mark_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

@@ -1,8 +1,8 @@
 package com.fullsail.apolloarchery;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.fullsail.apolloarchery.fragments.SightMarksFragment;
 
