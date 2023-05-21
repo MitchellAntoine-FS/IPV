@@ -64,6 +64,8 @@ class CreateAccountViewController: UIViewController {
         
         let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = passwordTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let firstName = firstNameTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         // Create new account by passing the new user's email address and password to createUser.
         Auth.auth().createUser(withEmail: email, password: password) { result, err in
@@ -76,7 +78,17 @@ class CreateAccountViewController: UIViewController {
                 
                 self.goToHomeView()
             }
+            
+        }
 
+        if (Auth.auth().currentUser != nil) {
+    
+            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                changeRequest?.displayName = firstName + " " + lastName
+                changeRequest?.commitChanges { error in
+            }
+        } else {
+            // No user is signed in
         }
     }
     
