@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import SwiftUI
 
 class CreateAccountViewController: UIViewController {
 
@@ -17,11 +18,16 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var logInLink: UILabel!
     @IBOutlet weak var createAccountButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
+ 
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let tap = UITapGestureRecognizer(target: self, action: #selector(CreateAccountViewController.logIn))
+        logInLink.addGestureRecognizer(tap)
+        
         setUpElements()
     }
     
@@ -66,6 +72,7 @@ class CreateAccountViewController: UIViewController {
         let password = passwordTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let firstName = firstNameTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let displayName = firstName + " " + lastName
         
         // Create new account by passing the new user's email address and password to createUser.
         Auth.auth().createUser(withEmail: email, password: password) { result, err in
@@ -76,20 +83,17 @@ class CreateAccountViewController: UIViewController {
             }
             else {
                 
+                let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
+                    changeRequest?.displayName = displayName
+                    changeRequest?.commitChanges { error in
+                }
                 self.goToHomeView()
             }
-            
         }
-
-        if (Auth.auth().currentUser != nil) {
+    }
     
-            let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
-                changeRequest?.displayName = firstName + " " + lastName
-                changeRequest?.commitChanges { error in
-            }
-        } else {
-            // No user is signed in
-        }
+    @IBAction func logIn(_ sender: UITapGestureRecognizer) {
+        navigationController?.pushViewController(LogInViewController(), animated: true)
     }
     
     func showError(_ message: String) {
@@ -106,5 +110,8 @@ class CreateAccountViewController: UIViewController {
             present(navController, animated: true, completion: nil )
         }
     }
+    
+
+
     
 }

@@ -387,12 +387,12 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="createAccountButton" destination="uAc-4V-QHA" id="dVZ-EW-bNH"/>
+                        <outlet property="createAccountButton" destination="uAc-4V-QHA" id="SCJ-K7-IeC"/>
                         <outlet property="emailTextField" destination="UV9-WF-esW" id="HY4-39-Afx"/>
                         <outlet property="errorLabel" destination="RhY-yQ-CAn" id="Y0L-zW-ltv"/>
                         <outlet property="firstNameTextFild" destination="nEb-bH-OdY" id="Ycj-zq-mBk"/>
                         <outlet property="lastNameTextField" destination="GWo-EI-lQ1" id="fE9-5P-axC"/>
-                        <outlet property="logInLink" destination="SsM-Ie-8Fk" id="h1m-XA-YOW"/>
+                        <outlet property="logInLink" destination="SsM-Ie-8Fk" id="7X6-q0-Dsg"/>
                         <outlet property="passwordTextFild" destination="KWj-5j-IxX" id="T63-iy-0i8"/>
                     </connections>
                 </viewController>
