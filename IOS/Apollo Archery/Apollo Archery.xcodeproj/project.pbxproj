@@ -13,6 +13,7 @@
 		646571E62A1957A300FD44FD /* ArrowCounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646571E52A1957A300FD44FD /* ArrowCounterViewController.swift */; };
 		646571E82A19582900FD44FD /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646571E72A19582800FD44FD /* Person.swift */; };
 		646571EA2A19618600FD44FD /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646571E92A19618600FD44FD /* LogInViewController.swift */; };
+		646571EC2A19A3C800FD44FD /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646571EB2A19A3C800FD44FD /* Utilities.swift */; };
 		648D02B42A14427A00C46CDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648D02B32A14427A00C46CDD /* AppDelegate.swift */; };
 		648D02B62A14427A00C46CDD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648D02B52A14427A00C46CDD /* SceneDelegate.swift */; };
 		648D02B82A14427A00C46CDD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648D02B72A14427A00C46CDD /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 		646571E52A1957A300FD44FD /* ArrowCounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowCounterViewController.swift; sourceTree = "<group>"; };
 		646571E72A19582800FD44FD /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		646571E92A19618600FD44FD /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		646571EB2A19A3C800FD44FD /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		648D02B02A14427A00C46CDD /* Apollo Archery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Apollo Archery.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		648D02B32A14427A00C46CDD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		648D02B52A14427A00C46CDD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				646571E52A1957A300FD44FD /* ArrowCounterViewController.swift */,
 				646571E92A19618600FD44FD /* LogInViewController.swift */,
 				646571E72A19582800FD44FD /* Person.swift */,
+				646571EB2A19A3C800FD44FD /* Utilities.swift */,
 				648D02B92A14427A00C46CDD /* Main.storyboard */,
 				648D02BC2A14427C00C46CDD /* Assets.xcassets */,
 				648D02BE2A14427C00C46CDD /* LaunchScreen.storyboard */,
@@ -182,6 +185,7 @@
 				648D02B42A14427A00C46CDD /* AppDelegate.swift in Sources */,
 				646571E82A19582900FD44FD /* Person.swift in Sources */,
 				648D02B62A14427A00C46CDD /* SceneDelegate.swift in Sources */,
+				646571EC2A19A3C800FD44FD /* Utilities.swift in Sources */,
 				646571E42A19578200FD44FD /* ResetPasswordViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

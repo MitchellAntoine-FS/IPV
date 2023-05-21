@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class CreateAccountViewController: UIViewController {
 
@@ -21,19 +22,77 @@ class CreateAccountViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setUpElements()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setUpElements() {
+        
+        // Hide error label
+        errorLabel.alpha = 0
+        
+        // Style the textFileds
+        Utilities.styleTextField(firstNameTextFild)
+        Utilities.styleTextField(lastNameTextField)
+        Utilities.styleTextField(emailTextField)
+        Utilities.styleTextField(passwordTextFild)
+        
     }
-    */
+
+    func validateFields() -> String? {
+        
+        // Check that all fields are filled in
+        if firstNameTextFild.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " ||
+            lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " ||
+            emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " ||
+            passwordTextFild.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " {
+            
+            return "Please fill in all fileds"
+        }
+        
+        // Check if password is secure
+        let cleanedPassword = passwordTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if Utilities.isPasswordValid(cleanedPassword) == false {
+            // Password is not secure
+            return "Make sure your password is at least 8 characters, contains a special character and a number"
+        }
+        
+        return nil
+    }
+    
     @IBAction func createAccountButton(_ sender: UIButton) {
+        
+        let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = passwordTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // Create new account by passing the new user's email address and password to createUser.
+        Auth.auth().createUser(withEmail: email, password: password) { result, err in
+            
+            // Check for errors
+            if err != nil {
+                self.showError("Error creating user")
+            }
+            else {
+                
+                self.goToHomeView()
+            }
+
+        }
+    }
+    
+    func showError(_ message: String) {
+        errorLabel.text = message
+        errorLabel.alpha = 1
+    }
+    
+    func goToHomeView() {
+        
+        let mainStoryBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        if let navController = mainStoryBoard.instantiateViewController(withIdentifier: "NavVC") as? UINavigationController {
+
+            present(navController, animated: true, completion: nil )
+        }
     }
     
 }
