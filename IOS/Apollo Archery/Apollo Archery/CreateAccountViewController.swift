@@ -25,22 +25,21 @@ class CreateAccountViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let tap = UITapGestureRecognizer(target: self, action: #selector(CreateAccountViewController.logIn))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.logIn))
+        
+        tap.numberOfTapsRequired = 1
+        logInLink.isUserInteractionEnabled = true
+        logInLink.textColor = UIColor.white
         logInLink.addGestureRecognizer(tap)
         
         setUpElements()
+        
     }
     
     func setUpElements() {
         
         // Hide error label
         errorLabel.alpha = 0
-        
-        // Style the textFileds
-        Utilities.styleTextField(firstNameTextFild)
-        Utilities.styleTextField(lastNameTextField)
-        Utilities.styleTextField(emailTextField)
-        Utilities.styleTextField(passwordTextFild)
         
     }
 
@@ -68,11 +67,13 @@ class CreateAccountViewController: UIViewController {
     
     @IBAction func createAccountButton(_ sender: UIButton) {
         
+        
         let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = passwordTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let firstName = firstNameTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let displayName = firstName + " " + lastName
+        
         
         // Create new account by passing the new user's email address and password to createUser.
         Auth.auth().createUser(withEmail: email, password: password) { result, err in
@@ -93,7 +94,7 @@ class CreateAccountViewController: UIViewController {
     }
     
     @IBAction func logIn(_ sender: UITapGestureRecognizer) {
-        navigationController?.pushViewController(LogInViewController(), animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     func showError(_ message: String) {
@@ -110,8 +111,5 @@ class CreateAccountViewController: UIViewController {
             present(navController, animated: true, completion: nil )
         }
     }
-    
-
-
     
 }

@@ -23,6 +23,20 @@ class LogInViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setUpElements()
+        
+        let tapPwd = UITapGestureRecognizer(target: self, action: #selector(self.forgotPassword))
+        
+        tapPwd.numberOfTapsRequired = 1
+        forgotPasswordLink.isUserInteractionEnabled = true
+        forgotPasswordLink.textColor = UIColor.white
+        forgotPasswordLink.addGestureRecognizer(tapPwd)
+        
+        let tapCreateAccount = UITapGestureRecognizer(target: self, action: #selector(self.createAccount))
+        
+        tapCreateAccount.numberOfTapsRequired = 1
+        createAccountLink.isUserInteractionEnabled = true
+        createAccountLink.textColor = UIColor.white
+        createAccountLink.addGestureRecognizer(tapCreateAccount)
     }
     
     func setUpElements() {
@@ -30,24 +44,89 @@ class LogInViewController: UIViewController {
         // Hide error label
         errorLabel.alpha = 0
         
-        // Style the textFileds
-        Utilities.styleTextField(emailTextField)
-        Utilities.styleTextField(passwordTextField)
         Utilities.styleFilledButton(logInbutton)
         
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
     @IBAction func logInButton(_ sender: UIButton) {
+        
+        let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        
+        // Sign in the user
+        Auth.auth().signIn(withEmail: email, password: password) { (results, error) in
+            if error != nil {
+                // Couldn't sign in
+                self.errorLabel.text = error!.localizedDescription
+                self.errorLabel.alpha = 1
+            }
+            else {
+            
+                self.goToHomeView()
+            }
+        }
+        
     }
+    
+    func validateFields() -> String? {
+        
+        // Check that all fields are filled in
+        if emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " ||
+            passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " {
+            
+            return "Please fill in all fileds"
+        }
+        
+        // Check if password is secure
+        let cleanedPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if Utilities.isPasswordValid(cleanedPassword) == false {
+            // Password is not secure
+            return "Make sure your password is at least 8 characters, contains a special character and a number"
+        }
+        
+        return nil
+    }
+    
+    @objc func forgotPassword(_ sender: UITapGestureRecognizer) {
+        goToForgotPwd()
+    }
+    
+    @objc func createAccount(_ sender: UITapGestureRecognizer) {
+        
+        goToCreateAccountView()
+        print("Clicked")
+    }
+    
+    func goToForgotPwd() {
+        
+        let mainStoryBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        if let navPwdController = mainStoryBoard.instantiateViewController(withIdentifier: "NavResetVC") as? UINavigationController {
+
+            present(navPwdController, animated: true, completion: nil )
+        }
+    }
+    
+    func goToCreateAccountView() {
+        
+        let mainStoryBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        if let navCreateAccountController = mainStoryBoard.instantiateViewController(withIdentifier: "NavCA_VC") as? UINavigationController {
+
+            present(navCreateAccountController, animated: true, completion: nil )
+        }
+    }
+    
+    func goToHomeView() {
+        
+        let mainStoryBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        if let navController = mainStoryBoard.instantiateViewController(withIdentifier: "NavVC") as? UINavigationController {
+
+            present(navController, animated: true, completion: nil )
+        }
+    }
+    
 }
