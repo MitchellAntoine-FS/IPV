@@ -22,7 +22,9 @@ class LogInViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        setUpElements()
+        
+        // Hide error label
+        errorLabel.alpha = 0
         
         let tapPwd = UITapGestureRecognizer(target: self, action: #selector(self.forgotPassword))
         
@@ -37,15 +39,6 @@ class LogInViewController: UIViewController {
         createAccountLink.isUserInteractionEnabled = true
         createAccountLink.textColor = UIColor.white
         createAccountLink.addGestureRecognizer(tapCreateAccount)
-    }
-    
-    func setUpElements() {
-        
-        // Hide error label
-        errorLabel.alpha = 0
-        
-        Utilities.styleFilledButton(logInbutton)
-        
     }
     
     @IBAction func logInButton(_ sender: UIButton) {
@@ -94,29 +87,24 @@ class LogInViewController: UIViewController {
     }
     
     @objc func createAccount(_ sender: UITapGestureRecognizer) {
-        
-        goToCreateAccountView()
+         goToCreateAccountView()
         print("Clicked")
     }
     
     func goToForgotPwd() {
         
         let mainStoryBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
-        if let navPwdController = mainStoryBoard.instantiateViewController(withIdentifier: "NavResetVC") as? UINavigationController {
-
-            present(navPwdController, animated: true, completion: nil )
-        }
+        let navResetPasswordController = mainStoryBoard.instantiateViewController(withIdentifier: "ResetVC") as! ResetPasswordViewController
+        self.navigationController?.pushViewController(navResetPasswordController, animated: true)
+           
     }
     
     func goToCreateAccountView() {
         
         let mainStoryBoard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
-        if let navCreateAccountController = mainStoryBoard.instantiateViewController(withIdentifier: "NavCA_VC") as? UINavigationController {
-
-            present(navCreateAccountController, animated: true, completion: nil )
-        }
+        let navCreateAccountController = mainStoryBoard.instantiateViewController(withIdentifier: "CreateAccountVC") as! CreateAccountViewController
+        self.navigationController?.pushViewController(navCreateAccountController, animated: true)
+            
     }
     
     func goToHomeView() {

@@ -13,7 +13,6 @@
 		648667522A1F2E280004B556 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 648667502A1F2E280004B556 /* Main.storyboard */; };
 		648667542A1F2E2A0004B556 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 648667532A1F2E2A0004B556 /* Assets.xcassets */; };
 		648667572A1F2E2A0004B556 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 648667552A1F2E2A0004B556 /* LaunchScreen.storyboard */; };
-		6486675F2A1F2EAE0004B556 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6486675E2A1F2EAD0004B556 /* GoogleService-Info.plist */; };
 		648667622A1F2F3A0004B556 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 648667612A1F2F3A0004B556 /* FirebaseAuth */; };
 		648667642A1F2F3A0004B556 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 648667632A1F2F3A0004B556 /* FirebaseFirestore */; };
 		648667662A1F2F3A0004B556 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 648667652A1F2F3A0004B556 /* FirebaseFirestoreSwift */; };
@@ -24,6 +23,7 @@
 		648667722A1F30BA0004B556 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486676C2A1F30B90004B556 /* ResetPasswordViewController.swift */; };
 		648667732A1F30BA0004B556 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486676D2A1F30B90004B556 /* Utilities.swift */; };
 		648667742A1F30BA0004B556 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486676E2A1F30B90004B556 /* ProfileViewController.swift */; };
+		648667762A1FD7B90004B556 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 648667752A1FD7B90004B556 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,13 +35,13 @@
 		648667532A1F2E2A0004B556 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		648667562A1F2E2A0004B556 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		648667582A1F2E2A0004B556 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6486675E2A1F2EAD0004B556 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		648667692A1F30B90004B556 /* ArrowCounterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowCounterViewController.swift; sourceTree = "<group>"; };
 		6486676A2A1F30B90004B556 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		6486676B2A1F30B90004B556 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		6486676C2A1F30B90004B556 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		6486676D2A1F30B90004B556 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		6486676E2A1F30B90004B556 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		648667752A1FD7B90004B556 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +91,7 @@
 				648667532A1F2E2A0004B556 /* Assets.xcassets */,
 				648667552A1F2E2A0004B556 /* LaunchScreen.storyboard */,
 				648667582A1F2E2A0004B556 /* Info.plist */,
-				6486675E2A1F2EAD0004B556 /* GoogleService-Info.plist */,
+				648667752A1FD7B90004B556 /* GoogleService-Info.plist */,
 			);
 			path = ApolloArchery;
 			sourceTree = "<group>";
@@ -164,7 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				648667572A1F2E2A0004B556 /* LaunchScreen.storyboard in Resources */,
-				6486675F2A1F2EAE0004B556 /* GoogleService-Info.plist in Resources */,
+				648667762A1FD7B90004B556 /* GoogleService-Info.plist in Resources */,
 				648667542A1F2E2A0004B556 /* Assets.xcassets in Resources */,
 				648667522A1F2E280004B556 /* Main.storyboard in Resources */,
 			);

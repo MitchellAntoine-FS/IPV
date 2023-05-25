@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>145480100481-lvt5qt2btgh0t4snrbrnt9jq05n2tra2.apps.googleusercontent.com</string>
+	<string>145480100481-ld98gv3f3lhfeijj2bsdudp3409bfntp.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.145480100481-lvt5qt2btgh0t4snrbrnt9jq05n2tra2</string>
+	<string>com.googleusercontent.apps.145480100481-ld98gv3f3lhfeijj2bsdudp3409bfntp</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>145480100481-f66svvk8vk4ku98u4ng3id2u9kurna7m.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
@@ -15,36 +15,22 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.fullsail.Apollo-Archery</string>
+	<string>com.fullsail.ApolloArchery</string>
 	<key>PROJECT_ID</key>
 	<string>apollo-archery-6971f</string>
 	<key>STORAGE_BUCKET</key>
 	<string>apollo-archery-6971f.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:145480100481:ios:44a9e2a968f177d18bfb80</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SF-Pro.ttf</string>
-		<string>SF-Pro-Text-Semibold.otf</string>
-		<string>SF-Pro-Text-Regular.otf</string>
-		<string>SF-Pro-Text-Medium.otf</string>
-		<string>SF-Pro-Rounded-Semibold.otf</string>
-		<string>SF-Pro-Rounded-Regular.otf</string>
-		<string>SF-Pro-Rounded-Medium.otf</string>
-		<string>SF-Pro-Rounded-Light.otf</string>
-		<string>SF-Pro-Rounded-Heavy.otf</string>
-		<string>SF-Pro-Rounded-Bold.otf</string>
-		<string>SF-Pro-Rounded-Black.otf</string>
-	</array>
+	<string>1:145480100481:ios:f82976e9ff5edc578bfb80</string>
 </dict>
 </plist>

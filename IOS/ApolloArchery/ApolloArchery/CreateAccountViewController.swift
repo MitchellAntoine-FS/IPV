@@ -23,15 +23,15 @@ class CreateAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.logIn))
-        
+
         tap.numberOfTapsRequired = 1
-        logInLink.isUserInteractionEnabled = true
-        logInLink.textColor = UIColor.white
-        logInLink.addGestureRecognizer(tap)
-        
+        logInLink?.isUserInteractionEnabled = true
+        logInLink?.textColor = UIColor.white
+        logInLink?.addGestureRecognizer(tap)
+
         setUpElements()
         
     }
@@ -39,7 +39,7 @@ class CreateAccountViewController: UIViewController {
     func setUpElements() {
         
         // Hide error label
-        errorLabel.alpha = 0
+        errorLabel?.alpha = 0
         
     }
 
