@@ -9,6 +9,7 @@ import UIKit
 import Photos
 import PhotosUI
 import FirebaseAuth
+import FirebaseStorage
 
 class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
 

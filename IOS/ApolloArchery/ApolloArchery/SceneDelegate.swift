@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  Apollo Archery
+//  ApolloArchery
 //
-//  Created by Antoine Mitchell on 5/16/23.
+//  Created by Antoine Mitchell on 5/24/23.
 //
 
 import UIKit

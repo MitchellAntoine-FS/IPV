@@ -1,22 +1,24 @@
 //
 //  AppDelegate.swift
-//  Apollo Archery
+//  ApolloArchery
 //
-//  Created by Antoine Mitchell on 5/16/23.
+//  Created by Antoine Mitchell on 5/24/23.
 //
 
 import UIKit
 import FirebaseCore
 import FirebaseAuth
+import FirebaseStorage
 import FirebaseFirestore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        FirebaseApp.configure()
         // Override point for customization after application launch.
-       
+        FirebaseApp.configure()
         return true
     }
 
