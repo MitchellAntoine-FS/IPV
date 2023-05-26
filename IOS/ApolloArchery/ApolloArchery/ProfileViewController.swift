@@ -59,24 +59,24 @@ class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
                     
 
                     // Upload the file to the path "profileImage.jpg"
-                    profileRef.putData(profileImageData!, metadata: nil) { (metadata, error) in
-                        guard let metadata = metadata else {
+                profileRef.putData(profileImageData!, metadata: nil) { (metadata, error) in
+                    guard metadata != nil else {
+                        // Uh-oh, an error occurred!
+                        return
+                    }
+                    
+                    // You can also access to download URL after upload.
+                    profileRef.downloadURL { (url, error) in
+                        
+                        guard let downloadURL = url else {
                             // Uh-oh, an error occurred!
                             return
                         }
-                        
-                        // You can also access to download URL after upload.
-                        profileRef.downloadURL { (url, error) in
-                            
-                            guard let downloadURL = url else {
-                                // Uh-oh, an error occurred!
-                                return
-                                }
-                            self.setImageFromStringrURL(stringUrl: downloadURL.absoluteString)
-
-                        }
+                        self.setImageFromStringrURL(stringUrl: downloadURL.absoluteString)
                         
                     }
+                    
+                }
             }
 
         }

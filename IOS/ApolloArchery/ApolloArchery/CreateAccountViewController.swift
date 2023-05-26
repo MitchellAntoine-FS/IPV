@@ -42,31 +42,8 @@ class CreateAccountViewController: UIViewController {
         errorLabel?.alpha = 0
         
     }
-
-    func validateFields() -> String? {
-        
-        // Check that all fields are filled in
-        if firstNameTextFild.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " ||
-            lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " ||
-            emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " ||
-            passwordTextFild.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " {
-            
-            return "Please fill in all fileds"
-        }
-        
-        // Check if password is secure
-        let cleanedPassword = passwordTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if Utilities.isPasswordValid(cleanedPassword) == false {
-            // Password is not secure
-            return "Make sure your password is at least 8 characters, contains a special character and a number"
-        }
-        
-        return nil
-    }
-    
+  
     @IBAction func createAccountButton(_ sender: UIButton) {
-        
         
         let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = passwordTextFild.text!.trimmingCharacters(in: .whitespacesAndNewlines)

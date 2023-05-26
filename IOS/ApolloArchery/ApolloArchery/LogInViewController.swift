@@ -43,9 +43,10 @@ class LogInViewController: UIViewController {
     
     @IBAction func logInButton(_ sender: UIButton) {
         
-        let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-
+        var email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        var password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+       
         
         // Sign in the user
         Auth.auth().signIn(withEmail: email, password: password) { (results, error) in
@@ -60,26 +61,6 @@ class LogInViewController: UIViewController {
             }
         }
         
-    }
-    
-    func validateFields() -> String? {
-        
-        // Check that all fields are filled in
-        if emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " ||
-            passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == " " {
-            
-            return "Please fill in all fileds"
-        }
-        
-        // Check if password is secure
-        let cleanedPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if Utilities.isPasswordValid(cleanedPassword) == false {
-            // Password is not secure
-            return "Make sure your password is at least 8 characters, contains a special character and a number"
-        }
-        
-        return nil
     }
     
     @objc func forgotPassword(_ sender: UITapGestureRecognizer) {
