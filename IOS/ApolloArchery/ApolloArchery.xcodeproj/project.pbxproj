@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		645C1A572A21500F00B97B87 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645C1A562A21500F00B97B87 /* StorageManager.swift */; };
 		6486674B2A1F2E280004B556 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486674A2A1F2E280004B556 /* AppDelegate.swift */; };
 		6486674D2A1F2E280004B556 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486674C2A1F2E280004B556 /* SceneDelegate.swift */; };
 		6486674F2A1F2E280004B556 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486674E2A1F2E280004B556 /* ViewController.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		645C1A562A21500F00B97B87 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		648667472A1F2E280004B556 /* ApolloArchery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ApolloArchery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6486674A2A1F2E280004B556 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6486674C2A1F2E280004B556 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				648667552A1F2E2A0004B556 /* LaunchScreen.storyboard */,
 				648667582A1F2E2A0004B556 /* Info.plist */,
 				648667752A1FD7B90004B556 /* GoogleService-Info.plist */,
+				645C1A562A21500F00B97B87 /* StorageManager.swift */,
 			);
 			path = ApolloArchery;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			files = (
 				648667712A1F30BA0004B556 /* CreateAccountViewController.swift in Sources */,
 				6486674F2A1F2E280004B556 /* ViewController.swift in Sources */,
+				645C1A572A21500F00B97B87 /* StorageManager.swift in Sources */,
 				6486674B2A1F2E280004B556 /* AppDelegate.swift in Sources */,
 				6486676F2A1F30BA0004B556 /* ArrowCounterViewController.swift in Sources */,
 				648667702A1F30BA0004B556 /* LogInViewController.swift in Sources */,

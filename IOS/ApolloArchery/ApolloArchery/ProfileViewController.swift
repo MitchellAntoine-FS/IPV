@@ -17,14 +17,15 @@ class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    var imageUrl: URL?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2
+        self.profileImageView.layer.masksToBounds = true
         self.profileImageView.clipsToBounds = true
+        self.profileImageView.layer.borderWidth = 2
+        self.profileImageView.layer.borderColor = UIColor.black.cgColor
         
         if Auth.auth().currentUser != nil {
         setDataFromFirebase()
@@ -32,10 +33,14 @@ class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let savedImage = UserDefaults.standard.string(forKey: "imageUrl")
-        else {return}
-        self.setImageFromStringrURL(stringUrl: savedImage)
-       
+        
+        guard let newImage = UserDefaults.standard.object(forKey: "profileImageUrl") as? UIImage else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.profileImageView.image = newImage
+        }
+        
     }
     
     func setDataFromFirebase() {
@@ -46,59 +51,10 @@ class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
           let userName = user.displayName
             self.userNameLabel.text = userName
             
-            imageUrl = user.photoURL
-            
-            UserDefaults.standard.set(imageUrl?.absoluteString, forKey: "imageUrl")
-
-            guard let savedImage = UserDefaults.standard.string(forKey: "imageUrl")
-            else {return}
-            
-            self.setImageFromStringrURL(stringUrl: imageUrl!.absoluteString)
-           
-        }
-        
-    }
-    
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true, completion: nil)
-        
-        results.forEach { result in
-            result.itemProvider.loadObject(ofClass: UIImage.self) { reading, error in
-
-                guard let profileImage = reading as? UIImage, error == nil else {
-                    return
-                }
-
-                    // Get a reference to the storage service using the default Firebase App
-                    let storage = Storage.storage()
-                    let storageRef = storage.reference()
-                    let profileRef = storageRef.child("profileImage.jpg")
-                    let profileImageData = profileImage.pngData()
-                   
-                    // Upload the file to the path "profileImage.jpg"
-                profileRef.putData(profileImageData!, metadata: nil) { (metadata, error) in
-                    guard metadata != nil else {
-                        // Uh-oh, an error occurred!
-                        return
-                    }
-                    
-                    // You can also access to download URL after upload.
-                    profileRef.downloadURL { (url, error) in
-                        
-                        guard let downloadURL = url else {
-                            // Uh-oh, an error occurred!
-                            return
-                        }
-                        UserDefaults.standard.set(downloadURL.absoluteString, forKey: "imageUrl")
-
-                        guard let savedImage = UserDefaults.standard.string(forKey: "imageUrl")
-                        else {return}
-                        self.setImageFromStringrURL(stringUrl: savedImage)
-                    }
-                    
-                }
+            guard let imageUrl = user.photoURL else {
+                return
             }
-
+            self.setImageFromStringrURL(stringUrl: imageUrl.absoluteString)
         }
     }
 
@@ -117,13 +73,94 @@ class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
     
     @IBAction func uploadImageButton(_ sender: UIButton) {
         
+        self.presentPhotoActionsheet()
+    }
+    
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func presentPhotoActionsheet() {
+        let actionSheet = UIAlertController(title: "Profile Picture", message: "How would you like to select a picture?", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        actionSheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
+            
+            self?.presentCamera()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Select Photo", style: .default, handler: { [weak self] _ in
+            
+            self?.presentPHPicker()
+        }))
+        
+        present(actionSheet, animated: true)
+    }
+    
+    func presentCamera() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func presentPhotoPicker() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .photoLibrary
+        vc.delegate = self
+        vc.allowsEditing = true
+        present(vc, animated: true)
+    }
+    
+    func presentPHPicker() {
         var config = PHPickerConfiguration(photoLibrary: .shared())
         config.selectionLimit = 1
         config.filter = .images
         let vc = PHPickerViewController(configuration: config)
         vc.delegate = self
         present(vc, animated: true)
-
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let selectedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        
+        self.profileImageView.image = selectedImage
+        
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        results.forEach { result in
+            result.itemProvider.loadObject(ofClass: UIImage.self) { reading, error in
+
+                guard let profileImage = reading as? UIImage, error == nil, let profileImageData = profileImage.pngData() else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.profileImageView.image = profileImage
+                }
+                
+                let fileName = "profile_picture.png"
+                StorageManager.shared.uploadProfilePicture(with: profileImageData, fileName: fileName, completion: {result in
+                    switch result {
+                    case .success(let downloadUrl):
+                        UserDefaults.standard.set(downloadUrl, forKey: "profileImageUrl")
+                        print(downloadUrl)
+                    case .failure(let error):
+                        print("Storage Manager error: \(error)")
+                    }
+                })
+            }
+        }
+    }
+    
     
 }
