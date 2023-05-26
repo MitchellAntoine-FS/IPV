@@ -17,29 +17,47 @@ class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
+    var imageUrl: URL?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width/2
-        self.profileImageView.layer.masksToBounds = true
+        self.profileImageView.layer.cornerRadius = self.profileImageView.frame.size.width / 2
         self.profileImageView.clipsToBounds = true
         
+        if Auth.auth().currentUser != nil {
+        setDataFromFirebase()
+     }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let savedImage = UserDefaults.standard.string(forKey: "imageUrl")
+        else {return}
+        self.setImageFromStringrURL(stringUrl: savedImage)
+       
+    }
+    
+    func setDataFromFirebase() {
+
         let user = Auth.auth().currentUser
         if let user = user {
           
           let userName = user.displayName
             self.userNameLabel.text = userName
             
-            let imageUrl = user.photoURL
+            imageUrl = user.photoURL
             
-            if imageUrl != nil {
-                self.setImageFromStringrURL(stringUrl: imageUrl!.absoluteString)
-            }
+            UserDefaults.standard.set(imageUrl?.absoluteString, forKey: "imageUrl")
+
+            guard let savedImage = UserDefaults.standard.string(forKey: "imageUrl")
+            else {return}
+            
+            self.setImageFromStringrURL(stringUrl: imageUrl!.absoluteString)
+           
         }
         
     }
-    
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
@@ -56,8 +74,7 @@ class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
                     let storageRef = storage.reference()
                     let profileRef = storageRef.child("profileImage.jpg")
                     let profileImageData = profileImage.pngData()
-                    
-
+                   
                     // Upload the file to the path "profileImage.jpg"
                 profileRef.putData(profileImageData!, metadata: nil) { (metadata, error) in
                     guard metadata != nil else {
@@ -72,8 +89,11 @@ class ProfileViewController: UIViewController, PHPickerViewControllerDelegate {
                             // Uh-oh, an error occurred!
                             return
                         }
-                        self.setImageFromStringrURL(stringUrl: downloadURL.absoluteString)
-                        
+                        UserDefaults.standard.set(downloadURL.absoluteString, forKey: "imageUrl")
+
+                        guard let savedImage = UserDefaults.standard.string(forKey: "imageUrl")
+                        else {return}
+                        self.setImageFromStringrURL(stringUrl: savedImage)
                     }
                     
                 }

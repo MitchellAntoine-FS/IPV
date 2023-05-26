@@ -25,8 +25,23 @@ class ResetPasswordViewController: UIViewController {
         
         let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        Auth.auth().sendPasswordReset(withEmail: email) { error in
-          // ...
+        if (!email.isEmpty || !email.contains("@") || !email.contains(".com")) {
+            
+            let alert = UIAlertController(title: "Reset Password", message: "Check your email to reset your password", preferredStyle: .alert)
+            
+            let okButton = UIAlertAction(title: "OK", style: .destructive, handler: {_ in
+                
+                self.navigationController?.popToRootViewController(animated: true)
+
+                Auth.auth().sendPasswordReset(withEmail: email) { error in
+                  // ...
+                }
+                
+            })
+            alert.addAction(okButton)
+            
+            // Present the alert
+            present(alert, animated: true, completion: nil)
         }
         
     }

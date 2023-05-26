@@ -14,8 +14,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        guard let savedCount = UserDefaults.standard.value(forKey: "arrowCount")
+        else {return}
+        let savedCounter = savedCount as! Int
+        
+        self.arrowDailyCountLabel.text = savedCounter.description
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let savedCount = UserDefaults.standard.value(forKey: "arrowCount")
+        else {return}
+        let savedCounter = savedCount as? Int
+        self.arrowDailyCountLabel.text = savedCounter?.description
     }
 
+   
     @IBAction func profileButton(_ sender: UIButton) {
     }
     

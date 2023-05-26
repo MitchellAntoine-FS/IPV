@@ -43,9 +43,9 @@ class LogInViewController: UIViewController {
     
     @IBAction func logInButton(_ sender: UIButton) {
         
-        var email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        var password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
        
         
         // Sign in the user

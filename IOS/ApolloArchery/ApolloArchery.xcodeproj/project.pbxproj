@@ -24,6 +24,7 @@
 		648667732A1F30BA0004B556 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486676D2A1F30B90004B556 /* Utilities.swift */; };
 		648667742A1F30BA0004B556 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486676E2A1F30B90004B556 /* ProfileViewController.swift */; };
 		648667762A1FD7B90004B556 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 648667752A1FD7B90004B556 /* GoogleService-Info.plist */; };
+		6486677E2A20437D0004B556 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6486677D2A20437C0004B556 /* UserDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		6486676D2A1F30B90004B556 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		6486676E2A1F30B90004B556 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		648667752A1FD7B90004B556 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6486677D2A20437C0004B556 /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				6486676E2A1F30B90004B556 /* ProfileViewController.swift */,
 				6486676C2A1F30B90004B556 /* ResetPasswordViewController.swift */,
 				6486676D2A1F30B90004B556 /* Utilities.swift */,
+				6486677D2A20437C0004B556 /* UserDefaults.swift */,
 				648667502A1F2E280004B556 /* Main.storyboard */,
 				648667532A1F2E2A0004B556 /* Assets.xcassets */,
 				648667552A1F2E2A0004B556 /* LaunchScreen.storyboard */,
@@ -183,6 +186,7 @@
 				6486676F2A1F30BA0004B556 /* ArrowCounterViewController.swift in Sources */,
 				648667702A1F30BA0004B556 /* LogInViewController.swift in Sources */,
 				6486674D2A1F2E280004B556 /* SceneDelegate.swift in Sources */,
+				6486677E2A20437D0004B556 /* UserDefaults.swift in Sources */,
 				648667742A1F30BA0004B556 /* ProfileViewController.swift in Sources */,
 				648667732A1F30BA0004B556 /* Utilities.swift in Sources */,
 				648667722A1F30BA0004B556 /* ResetPasswordViewController.swift in Sources */,

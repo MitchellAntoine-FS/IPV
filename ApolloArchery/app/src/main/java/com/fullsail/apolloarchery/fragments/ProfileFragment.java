@@ -63,11 +63,16 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
         super.onViewCreated(view, savedInstanceState);
 
         ImageView profileImage = view.findViewById(R.id.profile_image);
+
         profileImage.setImageResource(R.drawable.baseline_profile);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         TextView userName = view.findViewById(R.id.users_name);
         if (user != null) {
             userName.setText(user.getDisplayName());
+
+            profileImage.setImageURI(user.getPhotoUrl());
         }
 
         refresh();
