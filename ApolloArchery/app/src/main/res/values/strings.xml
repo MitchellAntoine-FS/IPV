@@ -66,6 +66,7 @@
     <string name="pos">+</string>
     <string name="save">save</string>
     <string name="sight_marks_label">Sight Marks</string>
+    <string name="profile_button">profile_</string>
 
 
 </resources>

@@ -30,9 +30,6 @@ import java.time.LocalDate;
 public class MainFragment extends Fragment {
     public static final String TAG = "MainFragment.TAG";
 
-
-    private SharedPreferences sharedPreferencesScoring;
-    private SharedPreferences.Editor editor;
     TextView arrowDayTotals;
     ImageView newRoundBtn;
     TextView newRoundLabel;
@@ -72,7 +69,7 @@ public class MainFragment extends Fragment {
         arrowDayTotals = view.findViewById(R.id.arrow_count_display);
         newRoundLabel = view.findViewById(R.id.new_round_label);
 
-        sharedPreferencesScoring = requireActivity().getSharedPreferences("Scoring", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferencesScoring = requireActivity().getSharedPreferences("Scoring", Context.MODE_PRIVATE);
         roundInProgress = sharedPreferencesScoring.getBoolean("roundInProgress", false);
 
         if (!roundInProgress) {
@@ -113,7 +110,7 @@ public class MainFragment extends Fragment {
         super.onResume();
         // sharedPreferences set up
         SharedPreferences sharedPreferencesArrowCounter = requireActivity().getSharedPreferences("ArrowCounter", Context.MODE_PRIVATE);
-        editor = sharedPreferencesArrowCounter.edit();
+        SharedPreferences.Editor editor = sharedPreferencesArrowCounter.edit();
 
         // Getting daily counter values and last reset day values from shared preferences
         dailyCount = sharedPreferencesArrowCounter.getInt("counter", 0);
@@ -139,6 +136,7 @@ public class MainFragment extends Fragment {
             editor.apply();
         }
 
+        SharedPreferences sharedPreferencesScoring = requireActivity().getSharedPreferences("Scoring", Context.MODE_PRIVATE);
         arrowDayTotals.setText(String.format("%03d", dailyCount));
         roundInProgress = sharedPreferencesScoring.getBoolean("roundInProgress", false);
         if (!roundInProgress) {
@@ -150,8 +148,8 @@ public class MainFragment extends Fragment {
         }else {
             newRoundBtn.setOnClickListener(v -> {
                 newRoundLabel.setText(R.string.continue_round);
-                Intent roundSetupIntent = new Intent(requireContext(), RoundSetupActivity.class);
-                startActivity(roundSetupIntent);
+                Intent continueRoundSetupIntent = new Intent(requireContext(), RoundSelectionActivity.class);
+                startActivity(continueRoundSetupIntent);
             });
         }
 
@@ -163,7 +161,7 @@ public class MainFragment extends Fragment {
 
         // sharedPreferences set up
         SharedPreferences sharedPreferencesArrowCounter = requireActivity().getSharedPreferences("ArrowCounter", Context.MODE_PRIVATE);
-        editor = sharedPreferencesArrowCounter.edit();
+        SharedPreferences.Editor editor = sharedPreferencesArrowCounter.edit();
 
         // Saving dailyCount
         editor.putInt("counter", dailyCount);

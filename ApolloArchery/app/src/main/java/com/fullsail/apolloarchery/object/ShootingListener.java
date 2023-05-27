@@ -3,7 +3,8 @@ package com.fullsail.apolloarchery.object;
 import java.util.List;
 
 public interface ShootingListener {
-    Round getRound();
+
+    Distance getDistance();
 
     void nextRound(int totalArrowsShot, List<String> arrowsScoreList);
 

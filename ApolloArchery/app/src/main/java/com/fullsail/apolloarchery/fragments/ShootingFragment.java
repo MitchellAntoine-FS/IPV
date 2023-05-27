@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
-import com.fullsail.apolloarchery.object.Round;
+import com.fullsail.apolloarchery.object.Distance;
 import com.fullsail.apolloarchery.object.ShootingListener;
 
 import java.util.ArrayList;
@@ -46,11 +46,11 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
     TextView endNumber, distDisplay, endScore_roundScore, tvShotOne, tvShotTwo, tvShotThree;
     TextView shotOneTextView, shotTwoTextView, shotThreeTextView, shotFourTextView;
     TextView shotFiveTextView, shotSixTextView;
-    List<String> arrowsDistances;
-    List<String> arrowsAtDistance;
+
+    String arrowsAtDistance;
     ShootingListener mListener;
     int bgColor;
-    int finalCurrentScore;
+    public static int finalCurrentScore = 0;
     LinearLayout threeShotLayout, sixShotLayout;
 
     String  shotOneString, shotTwoString, shotThreeString;
@@ -135,11 +135,12 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
         shotFive = shotFiveTextView.getText().toString();
         shotSix = shotSixTextView.getText().toString();
 
-        Round round = mListener.getRound();
-        arrowsEnd = round.getArrowsPerEnd();
-        scoringStyle = round.getScoringType();
-        arrowsAtDistance = round.getArrowsDistances();
-        arrowsDistances = round.getArrowsDistances();
+        Distance distance = mListener.getDistance();
+
+        arrowsEnd = distance.getArrowsEnd();
+        scoringStyle = distance.getScoringStyle();
+        arrowsAtDistance = distance.getArrowsAtDistance();
+
 
         if (arrowsEnd == 3) {
             threeShotLayout.setVisibility(View.VISIBLE);
@@ -380,10 +381,8 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
             Log.d("Scoring", "Error loading from shared preferences");
         }
 
-        for (int i = 0; i < arrowsDistances.size(); i++) {
-            totalArrows = Integer.parseInt(arrowsDistances.get(i));
-            end = Integer.parseInt(arrowsDistances.get(i)) / arrowsEnd;
-        }
+        totalArrows = Integer.parseInt(arrowsAtDistance);
+
 
         int totalScore = totalArrows * maxArrowVal;
 

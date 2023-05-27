@@ -22,8 +22,8 @@ public class ShootingActivity extends AppCompatActivity implements ShootingListe
 
     ArrayList<Distance> distances;
     private List<String> arrowsScoreList;
-    Round round;
-    String distance;
+
+    Distance distance;
     int totalArrows = 0;
 
     @Override
@@ -34,9 +34,9 @@ public class ShootingActivity extends AppCompatActivity implements ShootingListe
         arrowsScoreList = new ArrayList<>();
         distances = new ArrayList<>();
 
-        Intent round_intent = getIntent();
+        Intent distance_intent = getIntent();
 
-        round = (Round) round_intent.getParcelableExtra("round");
+        distance = (Distance) distance_intent.getParcelableExtra("round");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -57,7 +57,7 @@ public class ShootingActivity extends AppCompatActivity implements ShootingListe
         SharedPreferences sharedPreferences = this.getSharedPreferences("Scoring", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         // We to save this with reference to the distance so we use that as the name for shared pref
-        editor.putString(distance, savedArrowScoreList);
+        editor.putString(String.valueOf(distance), savedArrowScoreList);
         editor.apply();
 
         // Updating arrow counter
@@ -70,13 +70,13 @@ public class ShootingActivity extends AppCompatActivity implements ShootingListe
         }
         sharedPreferencesArrowCounter.edit().putInt("counter", counter).apply();
 
-
     }
 
     @Override
-    public Round getRound() {
-        return round;
+    public Distance getDistance() {
+        return distance;
     }
+
 
     @Override
     public void nextRound(int totalArrowsShot, List<String> arrowsScoreList) {

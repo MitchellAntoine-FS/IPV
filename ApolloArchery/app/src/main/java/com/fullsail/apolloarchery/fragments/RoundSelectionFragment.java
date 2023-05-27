@@ -21,6 +21,7 @@ import com.fullsail.apolloarchery.MainActivity;
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.ScoreCardActivity;
 import com.fullsail.apolloarchery.ShootingActivity;
+import com.fullsail.apolloarchery.object.Distance;
 import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.RoundSelectionListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -80,16 +81,23 @@ public class RoundSelectionFragment extends Fragment {
 
         roundListView = view.findViewById(R.id.round_selection_list);
 
+        setup();
 
         roundListView.setOnItemClickListener((parent, view1, position, id) -> {
 
-            Round dist = (Round) parent.getAdapter().getItem(position);
+            Distance distance = new Distance(mListener.getSelectedRound().getDistances().get(position),
+                    mListener.getSelectedRound().getArrowsDistances().get(position),
+                    mListener.getSelectedRound().getScoringType(),
+                    mListener.getSelectedRound().getArrowsPerEnd(),
+                    mListener.getSelectedRound().getDistanceValue());
 
             Intent roundIntent = new Intent(requireContext(), ShootingActivity.class);
-            roundIntent.putExtra("round", mListener.getSelectedRound());
+            roundIntent.putExtra("round", distance);
 
             startActivity(roundIntent);
         });
+
+
     }
 
     public static class RoundSelectionAdapter extends BaseAdapter {
@@ -106,11 +114,9 @@ public class RoundSelectionFragment extends Fragment {
             this.round = round;
 
             List<Round> rounds = new ArrayList<>();
-            for (int i = 0; i < distancesList.size(); i++) {
 
-                rounds.add(new Round(distanceValues.get(i)));
+            rounds.add(new Round(ShootingFragment.finalCurrentScore));
 
-            }
         }
 
         @Override
@@ -140,11 +146,12 @@ public class RoundSelectionFragment extends Fragment {
             int totalDistance = arrowsPerDistance * maxArrowValue;
             String totalDistanceString = Integer.toString(totalDistance);
             // 0 is a placeholder which filled with score for this distance once I get round to scoring
-            String combinedString = round.getDistanceValue() + "/" + totalDistanceString;
+            int scoreValue = ShootingFragment.finalCurrentScore;
+            String combinedString = scoreValue + "/" + totalDistanceString;
 
             TextView tv = convertView.findViewById(R.id.round_selection_name_textView);
             tv.setText(round.getDistances().get(position));
-            TextView roundScore =convertView.findViewById(R.id.round_total_score_textView);
+            TextView roundScore = convertView.findViewById(R.id.round_total_score_textView);
             roundScore.setText(combinedString);
 
             return convertView;
@@ -200,9 +207,14 @@ public class RoundSelectionFragment extends Fragment {
             scoringType = round.getScoringType();
             distances = round.getDistances();
 
-            // Setting distanceValues to zero since there is no information to load from sharedPref
+            /* Creating the distanceValues array which is full of zeroes to be updated, this
+               handles the case when a distance hasn't been shot yet hence the loop exits on the
+               first if condition */
             for (int i = 0; i < distances.size(); i++) {
+                assert distanceValues != null;
                 distanceValues.add(0);
+
+                Log.i("Scoring", "Distance Value Size: " + distanceValues.size());
             }
         }
 
@@ -216,7 +228,6 @@ public class RoundSelectionFragment extends Fragment {
 
                 List<String> savedScoreList = gson.fromJson(arrowValuesString, arrowValueType);
 
-
                 int current = 0;
                 for (int j = 0; j < savedScoreList.size(); j++) {
                     if (savedScoreList.contains("M")) {
@@ -229,9 +240,13 @@ public class RoundSelectionFragment extends Fragment {
 
                     if (!savedScoreList.contains(" ")) {
                         totalArrowsShot += 1;
+
+                        Log.i("Scoring", "Distance Value Size: " + totalArrowsShot);
                     }
                 }
+                assert distanceValues != null;
                 distanceValues.set(i, current);
+                Log.i("Scoring", "Total arrows shot: " + distanceValues.size());
             }
         }
 
@@ -260,8 +275,11 @@ public class RoundSelectionFragment extends Fragment {
 
         // Calculating round total score
         int currentScore = 0;
-        for (int i = 0; i < distanceValues.size(); i++) {
-            currentScore += distanceValues.get(i);
+
+        if (distanceValues != null) {
+            for (int i = 0; i < distanceValues.size(); i++) {
+                currentScore += distanceValues.get(i);
+            }
         }
         String totalScoreString = currentScore + "/" + totalScore;
         totalScoreTextView.setText(totalScoreString);
