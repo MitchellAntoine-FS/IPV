@@ -2,6 +2,7 @@ package com.fullsail.apolloarchery.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +33,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
     private int arrowsEnd;
     private int end;
     private int scoringStyle;
-
+    Distance distance;
     private int shotCount;
     private int keyValue;
     public static String shotString = "";
@@ -135,7 +136,7 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
         shotFive = shotFiveTextView.getText().toString();
         shotSix = shotSixTextView.getText().toString();
 
-        Distance distance = mListener.getDistance();
+        distance = mListener.getDistance();
 
         arrowsEnd = distance.getArrowsEnd();
         scoringStyle = distance.getScoringStyle();
@@ -727,7 +728,28 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
         }
 
-
         return true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Scoring", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(distance.getDistance(), String.valueOf(distanceValues));
+        editor.apply();
+
+
+        // Updating arrow counter
+        SharedPreferences sharedPreferencesArrowCounter = requireActivity().getSharedPreferences("ArrowCounter", Context.MODE_PRIVATE);
+        int currentCounterValue = sharedPreferencesArrowCounter.getInt("counter", 0);
+        int counter = currentCounterValue + totalArrowsShot;
+        // To deal with rare case where counter ends up negative
+        if (counter < 0) {
+            counter = 0;
+        }
+        sharedPreferencesArrowCounter.edit().putInt("counter", counter).apply();
+
     }
 }
