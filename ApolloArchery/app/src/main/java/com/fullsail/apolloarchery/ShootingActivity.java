@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fullsail.apolloarchery.fragments.ShootingFragment;
 import com.fullsail.apolloarchery.object.Distance;
-import com.fullsail.apolloarchery.object.Round;
 import com.fullsail.apolloarchery.object.ShootingListener;
 import com.google.gson.Gson;
 
@@ -46,6 +48,23 @@ public class ShootingActivity extends AppCompatActivity implements ShootingListe
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_shooting, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.profile_btn) {
+            Intent profileIntent = new Intent(this, ProfileActivity.class);
+            startActivity(profileIntent);
+        }
+
+        return true;
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
@@ -57,7 +76,7 @@ public class ShootingActivity extends AppCompatActivity implements ShootingListe
         SharedPreferences sharedPreferences = this.getSharedPreferences("Scoring", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         // We to save this with reference to the distance so we use that as the name for shared pref
-        editor.putString(String.valueOf(distance), savedArrowScoreList);
+        editor.putString(distance.getDistance(), savedArrowScoreList);
         editor.apply();
 
         // Updating arrow counter

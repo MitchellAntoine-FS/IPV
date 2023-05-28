@@ -1,11 +1,15 @@
 package com.fullsail.apolloarchery.object;
 
+import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "HistoryRounds")
-public class HistoryRounds {
+public class HistoryRounds implements Serializable {
 
     @PrimaryKey
     public long id;

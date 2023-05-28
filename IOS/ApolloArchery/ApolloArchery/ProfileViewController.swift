@@ -148,7 +148,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
                     self.profileImageView.image = profileImage
                 }
                 
-                let fileName = "profile_picture.png"
+                let fileName = "profile_picture.jpg"
                 StorageManager.shared.uploadProfilePicture(with: profileImageData, fileName: fileName, completion: {result in
                     switch result {
                     case .success(let downloadUrl):

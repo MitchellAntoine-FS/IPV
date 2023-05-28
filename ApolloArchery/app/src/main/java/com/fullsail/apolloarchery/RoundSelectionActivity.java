@@ -2,7 +2,6 @@ package com.fullsail.apolloarchery;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,11 +18,10 @@ public class RoundSelectionActivity extends AppCompatActivity implements RoundSe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_round_selection);
 
-
         Intent roundList_intent = getIntent();
         round = roundList_intent.getParcelableExtra("round");
 
-        Log.i(TAG, "onCreate: " + round.getRoundName());
+//        Log.i(TAG, "onCreate: " + round.getRoundName());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -33,6 +31,13 @@ public class RoundSelectionActivity extends AppCompatActivity implements RoundSe
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // So that it exits to main activity if we entered a round then pressed back
+        Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
+    }
 
 
     @Override

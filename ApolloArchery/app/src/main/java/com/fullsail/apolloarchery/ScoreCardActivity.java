@@ -11,7 +11,7 @@ import com.fullsail.apolloarchery.object.ScoreCardListener;
 
 public class ScoreCardActivity extends AppCompatActivity implements ScoreCardListener {
 
-    HistoryRounds historyRounds;
+    HistoryRounds historyRound;
 
     int position;  // int position used to delete file
 
@@ -21,7 +21,7 @@ public class ScoreCardActivity extends AppCompatActivity implements ScoreCardLis
         setContentView(R.layout.activity_score_card);
 
         Intent history_intent = getIntent();
-        historyRounds = history_intent.getParcelableExtra("history");
+        historyRound = (HistoryRounds) history_intent.getSerializableExtra("history");
         position = history_intent.getIntExtra("position", 0);
 
         if (savedInstanceState == null) {
@@ -33,6 +33,6 @@ public class ScoreCardActivity extends AppCompatActivity implements ScoreCardLis
 
     @Override
     public HistoryRounds getRoundScore() {
-        return historyRounds;
+        return historyRound;
     }
 }

@@ -67,6 +67,9 @@
     <string name="save">save</string>
     <string name="sight_marks_label">Sight Marks</string>
     <string name="profile_button">profile_</string>
+    <string name="delete">delete</string>
+    <string name="take_picture">take_picture</string>
+    <string name="save_">save</string>
 
 
 </resources>

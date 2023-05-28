@@ -2,7 +2,6 @@ package com.fullsail.apolloarchery.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -384,7 +383,6 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
 
         totalArrows = Integer.parseInt(arrowsAtDistance);
 
-
         int totalScore = totalArrows * maxArrowVal;
 
         if (arrowsEnd == 3) {
@@ -463,6 +461,15 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
                         nextBtn.setEnabled(true);
                     }
                 }
+            }else {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle("Last Round Complete");
+                dialog.setMessage("Go back and save round.");
+
+                dialog.setPositiveButton("YES", (dialog1, which) -> {
+                    mListener.nextRound(totalArrowsShot, arrowsScoreList);
+                });
+                dialog.show();
             }
         }
         else if (arrowsEnd == 6) {
@@ -615,6 +622,15 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
                     }
 
                 }
+            }else {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle("Last Round Complete");
+                dialog.setMessage("Go back and save round.");
+
+                dialog.setPositiveButton("YES", (dialog1, which) -> {
+                    mListener.nextRound(totalArrowsShot, arrowsScoreList);
+                });
+                dialog.show();
             }
         }
 
@@ -731,25 +747,4 @@ public class ShootingFragment extends Fragment implements View.OnTouchListener {
         return true;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Scoring", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(distance.getDistance(), String.valueOf(distanceValues));
-        editor.apply();
-
-
-        // Updating arrow counter
-        SharedPreferences sharedPreferencesArrowCounter = requireActivity().getSharedPreferences("ArrowCounter", Context.MODE_PRIVATE);
-        int currentCounterValue = sharedPreferencesArrowCounter.getInt("counter", 0);
-        int counter = currentCounterValue + totalArrowsShot;
-        // To deal with rare case where counter ends up negative
-        if (counter < 0) {
-            counter = 0;
-        }
-        sharedPreferencesArrowCounter.edit().putInt("counter", counter).apply();
-
-    }
 }

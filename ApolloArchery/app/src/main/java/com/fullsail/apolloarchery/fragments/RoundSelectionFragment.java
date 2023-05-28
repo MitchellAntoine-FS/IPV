@@ -42,7 +42,8 @@ public class RoundSelectionFragment extends Fragment {
     ListView roundListView;
    RoundSelectionListener mListener;
     private List<Integer> distanceValues = new ArrayList<>();
-    Round round;
+
+    Distance distance;
 
     public RoundSelectionFragment() {
         // Required empty public constructor
@@ -81,11 +82,9 @@ public class RoundSelectionFragment extends Fragment {
 
         roundListView = view.findViewById(R.id.round_selection_list);
 
-        setup();
-
         roundListView.setOnItemClickListener((parent, view1, position, id) -> {
 
-            Distance distance = new Distance(mListener.getSelectedRound().getDistances().get(position),
+            distance = new Distance(mListener.getSelectedRound().getDistances().get(position),
                     mListener.getSelectedRound().getArrowsDistances().get(position),
                     mListener.getSelectedRound().getScoringType(),
                     mListener.getSelectedRound().getArrowsPerEnd(),
@@ -98,6 +97,13 @@ public class RoundSelectionFragment extends Fragment {
         });
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setup();
     }
 
     public static class RoundSelectionAdapter extends BaseAdapter {
@@ -160,7 +166,7 @@ public class RoundSelectionFragment extends Fragment {
 
     private void setup() {
 
-        round = mListener.getSelectedRound();
+        Round round = mListener.getSelectedRound();
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("Scoring", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -214,7 +220,7 @@ public class RoundSelectionFragment extends Fragment {
                 assert distanceValues != null;
                 distanceValues.add(0);
 
-                Log.i("Scoring", "Distance Value Size: " + distanceValues.size());
+                Log.i("Scoring", "Distance Value array of 0's Size: " + distanceValues.size());
             }
         }
 
@@ -241,12 +247,12 @@ public class RoundSelectionFragment extends Fragment {
                     if (!savedScoreList.contains(" ")) {
                         totalArrowsShot += 1;
 
-                        Log.i("Scoring", "Distance Value Size: " + totalArrowsShot);
+                        Log.i("Scoring", "Total arrows shot: " + totalArrowsShot);
                     }
                 }
                 assert distanceValues != null;
                 distanceValues.set(i, current);
-                Log.i("Scoring", "Total arrows shot: " + distanceValues.size());
+                Log.i("Scoring", "Distance Value Size: " + distanceValues.size());
             }
         }
 
@@ -286,6 +292,7 @@ public class RoundSelectionFragment extends Fragment {
 
         final Round roundSend;
         if (roundInProgress) {
+
             roundSend = roundLoad;
         }
         else {
@@ -300,6 +307,7 @@ public class RoundSelectionFragment extends Fragment {
 
         // The save button only appears when the round has been completed
         if (totalArrowsShot == totalArrows) {
+
             saveFAB.setVisibility(View.VISIBLE);
         }
         else {
