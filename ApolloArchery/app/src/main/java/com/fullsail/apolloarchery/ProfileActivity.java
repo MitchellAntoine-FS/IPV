@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,21 +15,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import com.fullsail.apolloarchery.adapters.HistoryAdapter;
 import com.fullsail.apolloarchery.fragments.ProfileFragment;
 import com.fullsail.apolloarchery.object.HistoryListener;
 import com.fullsail.apolloarchery.object.HistoryRounds;
+import com.fullsail.apolloarchery.object.RoundHistory;
 import com.fullsail.apolloarchery.util.ImageStorageUtility;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -42,12 +40,16 @@ public class ProfileActivity extends AppCompatActivity implements HistoryListene
 
     public static final String IMAGE_FOLDER = "image";
     public static final String IMAGE_NAME = "profile_picture.jpg";
+
+    private HistoryAdapter historyAdapter = new HistoryAdapter();
     ArrayList<HistoryRounds> historyRounds;
+    ArrayList<RoundHistory> roundHistories;
     FirebaseFirestore db;
     FirebaseStorage storage;
 
-    FirebaseUser user;
+    ImageView profileImage;
 
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +57,38 @@ public class ProfileActivity extends AppCompatActivity implements HistoryListene
         setContentView(R.layout.activity_profile);
 
         historyRounds = new ArrayList<>();
+        roundHistories = new ArrayList<>();
 
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        getFirebaseHistory();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.profile_container, ProfileFragment.newInstance(), ProfileFragment.TAG)
                     .commit();
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        historyAdapter.reloadHistory();
+
+        profileImage = findViewById(R.id.profile_image);
+
+        // Get image file reference
+        File imageFile = ImageStorageUtility.getImageFileReference(getApplicationContext(), IMAGE_NAME, IMAGE_FOLDER);
+
+        // Get image uri
+        Uri imageUri = FileProvider.getUriForFile(getApplicationContext(), "com.fullsail.apolloarchery", imageFile);
+
+        profileImage.setImageURI(imageUri);
+
     }
 
     @Override
@@ -110,31 +134,18 @@ public class ProfileActivity extends AppCompatActivity implements HistoryListene
     @Override
     public ArrayList<HistoryRounds> getHistory() {
 
-        Task<QuerySnapshot> collRef = db.collection("history")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-
-                                
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-
-                });
-
         return historyRounds;
+    }
+
+    @Override
+    public ArrayList<RoundHistory> getFirebaseRoundHistory() {
+        return roundHistories;
     }
 
     @Override
     public void getHistoricalData(HistoryRounds histRounds, int position) {
 
-        Intent intent = new Intent(this, ScoreCardActivity.class);
+        Intent intent = new Intent(this, ScoreCardsActivity.class);
         intent.putExtra("history", histRounds);
         intent.putExtra("position", position);
         startActivity(intent);
@@ -152,6 +163,7 @@ public class ProfileActivity extends AppCompatActivity implements HistoryListene
 
         uploadProfilePicture(imageUri);
 
+        profileImage.setImageURI(imageUri);
     }
 
     private void uploadProfilePicture( Uri _imageUri) {
@@ -162,61 +174,108 @@ public class ProfileActivity extends AppCompatActivity implements HistoryListene
         UploadTask uploadTask = riversRef.putFile(_imageUri);
 
         // Register observers to listen for when the download is done or if it fails
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-                Log.i("FIREBASE", "onFailure: Storage upload failure");
+        uploadTask.addOnFailureListener(exception -> {
+            // Handle unsuccessful uploads
+            Log.i("FIREBASE", "onFailure: Storage upload failure");
+        }).addOnSuccessListener(taskSnapshot -> {
+            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+            Log.i("FIREBASE", "onSuccess: Storage upload success");
+            // ...
+        });
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                throw Objects.requireNonNull(task.getException());
             }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                Log.i("FIREBASE", "onSuccess: Storage upload success");
+
+            // Continue with the task to get the download URL
+            return riversRef.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Uri downloadUri = task.getResult();
+
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+
+                        .setPhotoUri(Uri.parse(String.valueOf(downloadUri)))
+                        .build();
+
+                if (user != null) {
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    Log.d("FIREBASE", "User profile updated.");
+                                }
+                            });
+                }
+            } else {
+                // Handle failures
+                Log.i("FIREBASE", ": Failed to download Url" );
                 // ...
             }
         });
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw Objects.requireNonNull(task.getException());
-                }
+        Log.i(TAG, "uploadProfilePicture: " + urlTask );
 
-                // Continue with the task to get the download URL
-                return riversRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
+    }
 
-                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+    private void getFirebaseHistory() {
 
-                            .setPhotoUri(Uri.parse(String.valueOf(downloadUri)))
-                            .build();
+        DocumentReference docRef1 = db.collection("history").document("10");
+        docRef1.get().addOnSuccessListener(documentSnapshot -> {
+            RoundHistory history = documentSnapshot.toObject(RoundHistory.class);
+            if (history != null) {
+                long id = MainActivity.historyRoundDatabase.HistoryRoundDoa().saveCompletedRound(history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore(), history.getArcherString(), history.getScorerString());
 
-                    if (user != null) {
-                        user.updateProfile(profileUpdates)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d("FIREBASE", "User profile updated.");
-                                        }
-                                    }
-                                });
-                    }
-                } else {
-                    // Handle failures
-                    Log.i("FIREBASE", ": Failed to download Url" );
-                    // ...
-                }
+                // Add history to list
+                historyRounds.add(new HistoryRounds(history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore()));
+
+                roundHistories.add(new RoundHistory(history.getId(), history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore(), history.getArcherString(), history.getScorerString()));
             }
         });
 
+        DocumentReference docRef2 = db.collection("history").document("9");
+        docRef2.get().addOnSuccessListener(documentSnapshot -> {
+            RoundHistory history = documentSnapshot.toObject(RoundHistory.class);
+            if (history != null) {
+                long id = MainActivity.historyRoundDatabase.HistoryRoundDoa().saveCompletedRound(history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore(), history.getArcherString(), history.getScorerString());
+
+                // Add history to list
+                historyRounds.add(new HistoryRounds(history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore()));
+
+                roundHistories.add(new RoundHistory(history.getId(), history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore(), history.getArcherString(), history.getScorerString()));
+            }
+        });
+
+        DocumentReference docRef3 = db.collection("history").document("8");
+        docRef3.get().addOnSuccessListener(documentSnapshot -> {
+            RoundHistory history = documentSnapshot.toObject(RoundHistory.class);
+            if (history != null) {
+                long id = MainActivity.historyRoundDatabase.HistoryRoundDoa().saveCompletedRound(history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore(), history.getArcherString(), history.getScorerString());
+
+                // Add history to list
+                historyRounds.add(new HistoryRounds(history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore()));
+
+                roundHistories.add(new RoundHistory(history.getId(), history.getDate(),
+                        history.getRoundName(), history.getRound(), history.getArrowValues(),
+                        history.getTotalScore(), history.getArcherString(), history.getScorerString()));
+            }
+        });
     }
 
 }

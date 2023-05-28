@@ -1,6 +1,7 @@
 package com.fullsail.apolloarchery.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
+import com.fullsail.apolloarchery.ScoreCardsActivity;
 import com.fullsail.apolloarchery.adapters.HistoryAdapter;
 import com.fullsail.apolloarchery.object.HistoryListener;
-import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -70,6 +71,7 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
 
         TextView userName = view.findViewById(R.id.users_name);
         if (user != null) {
+
             userName.setText(user.getDisplayName());
 
             profileImage.setImageURI(user.getPhotoUrl());
@@ -79,19 +81,22 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
     }
 
     public void refresh() {
-        HistoryAdapter adapter = new HistoryAdapter(mListener.getHistory(), getActivity());
+
+        HistoryAdapter adapter = new HistoryAdapter(mListener.getFirebaseRoundHistory(), getActivity());
 
         histListView = requireView().findViewById(R.id.history_listView);
         histListView.setAdapter(adapter);
         histListView.setOnItemClickListener(this);
+
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        HistoryRounds historyRounds = (HistoryRounds) parent.getAdapter().getItem(position);
+        long historyId = mListener.getFirebaseRoundHistory().get(position).getId();
 
-        if (mListener != null ) {
-            mListener.getHistoricalData(historyRounds, position);
-        }
+        Intent intentSave = new Intent(requireContext(), ScoreCardsActivity.class);
+        intentSave.putExtra("id", historyId);
+        this.startActivity(intentSave);
     }
 }

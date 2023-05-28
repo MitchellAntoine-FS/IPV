@@ -38,8 +38,10 @@
         android:id="@+id/history_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
         android:layout_marginEnd="16dp"
         android:hint="@string/_1437_1410"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/history_name"
         app:layout_constraintTop_toTopOf="@+id/history_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

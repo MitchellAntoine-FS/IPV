@@ -1,5 +1,6 @@
 package com.fullsail.apolloarchery.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,20 +14,27 @@ import android.widget.TextView;
 
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.object.HistoryRounds;
+import com.fullsail.apolloarchery.object.RoundHistory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HistoryAdapter extends BaseAdapter implements Filterable {
     private static final String TAG = "HistoryAdapter";
 
-    private static ArrayList<HistoryRounds> historyList;
-    public final ArrayList<HistoryRounds> filteredHistory;
+    private static ArrayList<RoundHistory> historyList;
+    public ArrayList<RoundHistory> filteredHistory;
     CustomFilter filter;
 
-    private final Context mContext;
+    private Context mContext;
 
-    public HistoryAdapter(ArrayList<HistoryRounds> historyList, Context mContext) {
+    private List<HistoryRounds> new_historyList = new ArrayList<>();
+
+    public HistoryAdapter() {
+    }
+
+    public HistoryAdapter(ArrayList<RoundHistory> historyList, Context mContext) {
         HistoryAdapter.historyList = historyList;
         this.mContext = mContext;
         filteredHistory = historyList;
@@ -62,11 +70,11 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
                 .into(iv);
 
         TextView tvDate = convertView.findViewById(R.id.history_date);
-        tvDate.setText(filteredHistory.get(position).date);
+        tvDate.setText(filteredHistory.get(position).getDate());
         TextView tvName = convertView.findViewById(R.id.history_name);
-        tvName.setText(filteredHistory.get(position).roundName);
+        tvName.setText(filteredHistory.get(position).getRoundName());
         TextView tvScore = convertView.findViewById(R.id.history_score);
-        tvScore.setText(filteredHistory.get(position).totalScore);
+        tvScore.setText(String.valueOf(filteredHistory.get(position).getTotalScore()));
 
         return convertView;
     }
@@ -95,16 +103,17 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
                     // Constraint to lowercase
                     constraint = constraint.toString().toLowerCase();
 
-                    ArrayList<HistoryRounds> filters = new ArrayList<>();
+                    ArrayList<RoundHistory> filters = new ArrayList<>();
 
                     // Filtering
-//                    for (int i = 0; i < historyList.size(); i++) {
-//                        if (historyList.get(i).date.contains(constraint)) {
-//                            HistoryRounds s = new HistoryRounds(historyList.get(0).date, historyList.get(0).roundName,
-//                                    historyList.get(0).round, historyList.get(0).totalScore);
-//                            filters.add(s);
-//                        }
-//                    }
+                    for (int i = 0; i < historyList.size(); i++) {
+                        if (historyList.get(i).getDate().contains(constraint)) {
+                            RoundHistory s = new RoundHistory(historyList.get(i).getId(), historyList.get(i).getDate(), historyList.get(i).getRoundName(),
+                                    historyList.get(i).getRound(), historyList.get(i).getArrowValues(), historyList.get(i).getTotalScore(),
+                                    historyList.get(i).getArcherString(), historyList.get(i).getScorerString());
+                            filters.add(s);
+                        }
+                    }
                     results.values = filters;
                     results.count = filters.size();
                 }else {
@@ -121,4 +130,13 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
 
         }
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void reloadHistory() {
+
+
+        notifyDataSetChanged();
+    }
+
+
 }

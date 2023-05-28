@@ -9,7 +9,7 @@ import com.fullsail.apolloarchery.fragments.ScoreCardFragment;
 import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.fullsail.apolloarchery.object.ScoreCardListener;
 
-public class ScoreCardActivity extends AppCompatActivity implements ScoreCardListener {
+public class ScoreCardsActivity extends AppCompatActivity implements ScoreCardListener {
 
     HistoryRounds historyRound;
 
