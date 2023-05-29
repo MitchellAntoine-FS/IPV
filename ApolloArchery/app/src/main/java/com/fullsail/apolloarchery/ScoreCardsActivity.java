@@ -13,7 +13,7 @@ public class ScoreCardsActivity extends AppCompatActivity implements ScoreCardLi
 
     HistoryRounds historyRound;
 
-    int position;  // int position used to delete file
+    long id;  // int position used to delete file
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +21,8 @@ public class ScoreCardsActivity extends AppCompatActivity implements ScoreCardLi
         setContentView(R.layout.activity_score_card);
 
         Intent history_intent = getIntent();
-        historyRound = (HistoryRounds) history_intent.getSerializableExtra("history");
-        position = history_intent.getIntExtra("position", 0);
+        historyRound = (HistoryRounds) history_intent.getSerializableExtra("id");
+        id = history_intent.getLongExtra("id", 0);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -34,5 +34,10 @@ public class ScoreCardsActivity extends AppCompatActivity implements ScoreCardLi
     @Override
     public HistoryRounds getRoundScore() {
         return historyRound;
+    }
+
+    @Override
+    public long getID() {
+        return id;
     }
 }

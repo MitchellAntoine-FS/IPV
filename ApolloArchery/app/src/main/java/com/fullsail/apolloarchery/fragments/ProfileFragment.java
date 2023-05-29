@@ -16,9 +16,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.R;
-import com.fullsail.apolloarchery.ScoreCardsActivity;
 import com.fullsail.apolloarchery.adapters.HistoryAdapter;
 import com.fullsail.apolloarchery.object.HistoryListener;
+import com.fullsail.apolloarchery.scorecard.ScorecardActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -94,8 +94,9 @@ public class ProfileFragment extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         long historyId = mListener.getFirebaseRoundHistory().get(position).getId();
+        long historyRounds = mListener.getHistory().get(position).id;
 
-        Intent intentSave = new Intent(requireContext(), ScoreCardsActivity.class);
+        Intent intentSave = new Intent(requireContext(), ScorecardActivity.class);
         intentSave.putExtra("id", historyId);
         this.startActivity(intentSave);
     }
