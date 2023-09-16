@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import FirebaseAuth
 import SwiftUI
+import FirebaseAuth
 
 class CreateAccountViewController: UIViewController {
 
@@ -69,6 +69,8 @@ class CreateAccountViewController: UIViewController {
             }
         }
     }
+    
+
     
     @IBAction func logIn(_ sender: UITapGestureRecognizer) {
         navigationController?.popToRootViewController(animated: true)

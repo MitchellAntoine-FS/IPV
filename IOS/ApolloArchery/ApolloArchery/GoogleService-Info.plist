@@ -21,16 +21,16 @@
 	<key>STORAGE_BUCKET</key>
 	<string>apollo-archery-6971f.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:145480100481:ios:f82976e9ff5edc578bfb80</string>
+	<string>1:145480100481:ios:f82976e9ff5edc578bfb81</string>
 </dict>
 </plist>
