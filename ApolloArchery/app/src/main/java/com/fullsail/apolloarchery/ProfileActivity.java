@@ -20,7 +20,7 @@ import com.fullsail.apolloarchery.fragments.ProfileFragment;
 import com.fullsail.apolloarchery.object.HistoryListener;
 import com.fullsail.apolloarchery.object.HistoryRounds;
 import com.fullsail.apolloarchery.object.RoundHistory;
-import com.fullsail.apolloarchery.util.ImageStorageUtility;
+import com.fullsail.apolloarchery.utils.ImageStorageUtility;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

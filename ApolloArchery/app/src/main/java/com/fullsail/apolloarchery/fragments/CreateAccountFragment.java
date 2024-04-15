@@ -21,7 +21,7 @@ import com.fullsail.apolloarchery.LoginActivity;
 import com.fullsail.apolloarchery.R;
 import com.fullsail.apolloarchery.object.CreateAccountListener;
 import com.fullsail.apolloarchery.object.Person;
-import com.fullsail.apolloarchery.util.PersonStorageUtil;
+import com.fullsail.apolloarchery.utils.PersonStorageUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;

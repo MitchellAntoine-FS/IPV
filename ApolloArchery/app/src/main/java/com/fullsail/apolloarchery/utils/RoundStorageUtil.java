@@ -1,8 +1,8 @@
-package com.fullsail.apolloarchery.util;
+package com.fullsail.apolloarchery.utils;
 
 import android.content.Context;
 
-import com.fullsail.apolloarchery.object.Person;
+import com.fullsail.apolloarchery.object.Round;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,44 +10,45 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class PersonStorageUtil {
-    private static final String FILE_NAME = "people.dat";
+public class RoundStorageUtil {
+    private static final String FILE_NAME = "rounds.dat";
 
-    public static void savePerson(Context _context, Person _person) {
-        ArrayList<Person> people = loadPeople(_context);
-        people.clear();
-        people.add(_person);
-        savePeople(_context, people);
+    public static void saveRound(Context _context, Round _round) {
+        ArrayList<Round> rounds = loadRounds(_context);
+        rounds.clear();
+        rounds.add(_round);
+        saveRounds(_context, rounds);
     }
 
     @SuppressWarnings("unchecked")
-    public static ArrayList<Person> loadPeople(Context _context) {
-        ArrayList<Person> people = null;
+    public static ArrayList<Round> loadRounds(Context _context) {
+        ArrayList<Round> rounds = null;
 
         try {
             FileInputStream fis = _context.openFileInput(FILE_NAME);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            people = (ArrayList<Person>)ois.readObject();
+            rounds = (ArrayList<Round>)ois.readObject();
             ois.close();
         } catch(Exception e) {
             e.printStackTrace();
         }
 
-        if(people == null) {
-            people = new ArrayList<>();
+        if(rounds == null) {
+            rounds = new ArrayList<>();
         }
 
-        return people;
+        return rounds;
     }
 
-    private static void savePeople(Context _context, ArrayList<Person> _people) {
+    private static void saveRounds(Context _context, ArrayList<Round> _rounds) {
         try {
             FileOutputStream fos = _context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(_people);
+            oos.writeObject(_rounds);
             oos.close();
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
+
 }

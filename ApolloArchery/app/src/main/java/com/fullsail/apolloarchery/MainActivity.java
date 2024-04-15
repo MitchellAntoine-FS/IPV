@@ -1,41 +1,31 @@
 package com.fullsail.apolloarchery;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.fullsail.apolloarchery.fragments.MainFragment;
-import com.fullsail.apolloarchery.util.HistoryRoundDatabase;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.fullsail.apolloarchery.utils.AuthCallbackImpl;
+import com.fullsail.apolloarchery.utils.AuthenticationManager;
+import com.fullsail.apolloarchery.utils.HistoryRoundDatabase;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AuthenticationManager.AuthenticationListener {
     private static final String TAG = "MainActivity";
     public static HistoryRoundDatabase historyRoundDatabase;
-    private FirebaseAuth mAuth;
-    private static boolean loggedIn;
+    private AuthenticationManager authManager;
+    public boolean loggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        Intent loggedIn_Intent = getIntent();
-        loggedIn = loggedIn_Intent.getBooleanExtra(Intent.EXTRA_TEXT, false);
+        // Initialize the AuthenticationManager
+        authManager = new AuthenticationManager();
 
         if (savedInstanceState == null) {
-            if (!loggedIn) {
-                Intent logInIntent = new Intent(this, LoginActivity.class);
-                startActivity(logInIntent);
-            }else {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_container, MainFragment.newInstance(), MainFragment.TAG)
-                        .commit();
-            }
+
         }
         // Setup History round database
         historyRoundDatabase = Room.databaseBuilder(this, HistoryRoundDatabase.class, "HistoryRounds")
@@ -46,31 +36,34 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        // Check to see if current user is logged in
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.i(TAG, "onStart: "+ currentUser);
-
-        if (currentUser != null) {
-            currentUser.reload();
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (loggedIn) {
 
-            // Check to see if current user is logged in
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            Log.i(TAG, "onStart: "+ currentUser);
-
-            if (currentUser != null) {
-                loggedIn = true;
-                currentUser.reload();
-            }else {
-                loggedIn = false;
-            }
-        }
     }
 
+    private void loginUser(String email, String password) {
+        AuthCallbackImpl authCallback = new AuthCallbackImpl();
+        authManager.login(email, password, authCallback);
+    }
+
+
+    @Override
+    public void onSuccess() {
+        // User has been successfully logged in
+        loggedIn = true;
+
+        // Navigate to the MainFragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_container, MainFragment.newInstance(), MainFragment.TAG)
+                .commit();
+    }
+
+    @Override
+    public void onFailure(Exception e) {
+
+    }
 }
+

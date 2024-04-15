@@ -1,4 +1,4 @@
-package com.fullsail.apolloarchery.util;
+package com.fullsail.apolloarchery.utils;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
