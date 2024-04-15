@@ -1,4 +1,4 @@
-package com.fullsail.apolloarchery.utils;
+package com.fullsail.apolloarchery.authentication;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

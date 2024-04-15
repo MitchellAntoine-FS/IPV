@@ -19,19 +19,21 @@ import androidx.fragment.app.Fragment;
 
 import com.fullsail.apolloarchery.LoginActivity;
 import com.fullsail.apolloarchery.R;
+import com.fullsail.apolloarchery.authentication.AuthenticationCallback;
+import com.fullsail.apolloarchery.authentication.AuthenticationManager;
 import com.fullsail.apolloarchery.object.CreateAccountListener;
 import com.fullsail.apolloarchery.object.Person;
 import com.fullsail.apolloarchery.utils.PersonStorageUtil;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
 
-public class CreateAccountFragment extends Fragment {
+public class CreateAccountFragment extends Fragment implements AuthenticationCallback {
 
     public static final String TAG = "CreateAccountFragment";
-    private FirebaseAuth mAuth;
+    private AuthenticationManager authManager;
+
     Button createAccountBtn;
     TextView loginBtn;
     CreateAccountListener mListener;
@@ -55,7 +57,7 @@ public class CreateAccountFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        authManager = new AuthenticationManager();
     }
 
     @Override
@@ -68,8 +70,6 @@ public class CreateAccountFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mAuth = FirebaseAuth.getInstance();
 
         loginBtn = view.findViewById(R.id.loginBtn_createAccount);
         loginBtn.setOnClickListener(v -> {
@@ -116,56 +116,72 @@ public class CreateAccountFragment extends Fragment {
                 etPassword.setError(null);
             }
 
-            if (!(firstName.trim().length() == 0) || !(lastName.trim().length() == 0)
-                    || !(email.trim().length() == 0) || !(pwd.trim().length() == 0)) {
+            if (!(firstName.trim().isEmpty()) || !(lastName.trim().isEmpty())
+                    || !(email.trim().isEmpty()) || !(pwd.trim().isEmpty())) {
 
                 Person person = new Person(firstName, lastName);
                 PersonStorageUtil.savePerson(getContext(), person);
 
                 // Create account
-                createFirebaseAccount(email, pwd);
+                handleAccountCreation(email, pwd);
 
             }
         });
 
     }
 
-    private void createFirebaseAccount(String email, String pwd) {
+    private void handleAccountCreation(String email, String password) {
+        authManager.register(email, password, (AuthenticationManager.AuthenticationCallback) this);
+    }
 
-        mAuth.createUserWithEmailAndPassword(email, pwd)
-                .addOnCompleteListener(requireActivity(), task -> {
-                    if (task.isSuccessful()) {
-                        // Sign up success
-                        Log.d(TAG, "createUserWithEmail: success");
 
-                        ArrayList<Person> userNam = PersonStorageUtil.loadPeople(getActivity());
-                        Toast.makeText(getContext(), "Hi " + userNam.get(0).getFirst_name() , Toast.LENGTH_SHORT).show();
+    @Override
+    public void onSuccess(FirebaseUser user) {
 
-                        // Add user name to Firebase
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        // You can navigate to the MainActivity or update the UI here
+        if (user != null) {
+            // Update the user's display name
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(user.getDisplayName())
+                    .build();
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Sign up success
+                            Log.d(TAG, "createUserWithEmail: success");
 
-                        String user_name = userNam.get(0).getFirst_name() + " " + userNam.get(0).getLast_name();
+                            ArrayList<Person> userNam = PersonStorageUtil.loadPeople(getActivity());
+                            Toast.makeText(getContext(), "Hi " + userNam.get(0).getFirst_name() , Toast.LENGTH_SHORT).show();
 
-                        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(user_name)
-                                .build();
+                            String user_name = userNam.get(0).getFirst_name() + " " + userNam.get(0).getLast_name();
 
-                        if (user != null) {
+                            UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(user_name)
+                                    .build();
+
                             user.updateProfile(profileUpdate).addOnCompleteListener(task1 -> {
                                 if (task1.isSuccessful()) {
                                     Log.i(TAG, "User Updated: ");
                                 }
                             });
+
+                            mListener.closeSignup();
+
+                        } else {
+                            Log.w(TAG, "Failed to update user profile.", task.getException());
                         }
+                    });
 
-                        mListener.closeSignup();
+        }
+    }
 
-                    } else {
-                        // If sign up fails, display a message to the user.
-                        Log.w(TAG, "createUserWithEmail: failure", task.getException());
-                        Toast.makeText(getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onFailure(Exception e) {
+        // Handle account creation failure
+        // Display an error message or take appropriate action
+        Log.e(TAG, "Failed to create user account.", e);
+        Toast.makeText(getContext(), "Failed to create account. Please try again.", Toast.LENGTH_SHORT).show();
 
-                    }
-                });
+
     }
 }

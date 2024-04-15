@@ -17,23 +17,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
 import com.fullsail.apolloarchery.CreateAccountActivity;
 import com.fullsail.apolloarchery.ForgotPasswordActivity;
+import com.fullsail.apolloarchery.LoginActivity;
+import com.fullsail.apolloarchery.MainActivity;
 import com.fullsail.apolloarchery.R;
+import com.fullsail.apolloarchery.authentication.AuthenticationCallback;
+import com.fullsail.apolloarchery.authentication.AuthenticationManager;
 import com.fullsail.apolloarchery.object.LogInListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Objects;
-
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements AuthenticationCallback {
     public static final String TAG = "LoginFragment.TAG";
-    private FirebaseAuth mAuth;
     EditText etEmail, etPassword;
     Button logInBtn;
     TextView createAccountBtn, forgotPWordBtn;
     LogInListener mListener;
+    private AuthenticationManager authManager;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -42,6 +42,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        authManager = new AuthenticationManager();
     }
 
     @Override
@@ -61,9 +62,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Instantiate objects
-        mAuth = FirebaseAuth.getInstance();
 
         // If user has no account, send to create an account.
         createAccountBtn = view.findViewById(R.id.create_account_btn);
@@ -101,7 +99,7 @@ public class LoginFragment extends Fragment {
                 etPassword.setError(null);
             }
 
-            if (!(email.trim().length() == 0) || !(password.trim().length() == 0)) {
+            if (!(email.trim().isEmpty()) || !(password.trim().isEmpty())) {
                 // Sign in with email and password
                 signInWithEmailPassword(email, password);
             }
@@ -111,24 +109,41 @@ public class LoginFragment extends Fragment {
     private void signInWithEmailPassword(String email, String password) {
         Log.i(TAG, "signInWithEmailPassword: " + email);
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity(),
-                task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success
-                        Log.d(TAG, "signInWithEmail: success");
+        handleLoginSubmit(email, password);
 
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-                        Toast.makeText(getContext(),"Hello Again " +  Objects.requireNonNull(user).getDisplayName(),
-                                Toast.LENGTH_SHORT).show();
-
-                        mListener.closeLogIn();
-
-                    }else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail: failure", task.getException());
-                        Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        mListener.closeLogIn();
     }
+
+    private void handleLoginSubmit(String email, String password) {
+        // Show the progress bar
+        ((LoginActivity) getActivity()).showProgressBar();
+
+        authManager.login(email, password, (AuthenticationManager.AuthenticationCallback) this);
+    }
+
+    @Override
+    public void onSuccess(FirebaseUser user) {
+        // Sign-in success
+        // Hide the progress bar
+        ((LoginActivity) getActivity()).hideProgressBar();
+
+        // You can navigate to the MainActivity or update the UI here
+        Log.d(TAG, "signInWithEmail: success");
+        Toast.makeText(getContext(), "Hello Again " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        requireActivity().finish();
+    }
+
+    @Override
+    public void onFailure(Exception e) {
+        // Sign-in failure
+        // Hide the progress bar
+        ((LoginActivity) getActivity()).hideProgressBar();
+
+        // Display an error message or take appropriate action
+        Log.w(TAG, "signInWithEmail: failure", e);
+        Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+    }
+
 }
